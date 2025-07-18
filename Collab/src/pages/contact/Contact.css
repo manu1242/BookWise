@@ -1,0 +1,157 @@
+.contact-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #eaeaf2;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.about-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #22223b;
+  margin-bottom: 20px;
+  animation: fadeIn 1s ease-in-out;
+  text-align: center;
+}
+
+.contact-form {
+  text-align: center;
+  width: 100%;
+  max-width: 550px;
+  padding: 30px;
+  border-radius: 12px;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.input-group label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #030303;
+  display: block;
+}
+
+.input-group input,
+.input-group textarea {
+  background-color: #f8f8ff;
+  width: 100%;
+  padding: 12px;
+ 
+  border-radius: 8px;
+  font-size: 15px;
+  color: #070707;
+  transition: border-color 0.3s;
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+  color: #555;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: rgb(0, 0, 0);
+  outline: none;
+}
+
+textarea {
+  resize: none;
+  min-height: 120px;
+}
+
+small {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: #333;
+}
+
+.done {
+  background: #6868a4;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  width: 50%;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.done:hover {
+  background: rgb(156, 151, 181);
+}
+
+.done:disabled {
+  background: rgb(140, 112, 255);
+  cursor: not-allowed;
+}
+
+.status-message {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.status-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+  .contact-form {
+    width: 90%;
+    padding: 24px;
+  }
+
+  .about-heading {
+    font-size: 2rem;
+  }
+
+  .done {
+    font-size: 15px;
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-heading {
+    font-size: 1.75rem;
+  }
+
+  .contact-form {
+    padding: 20px;
+  }
+
+  .done {
+    font-size: 14px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

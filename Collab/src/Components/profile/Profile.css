@@ -1,0 +1,347 @@
+.profile-container {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(to bottom right, #eef4ff, #f8f0ff);
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px 16px;
+}
+
+/* Header */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 16px 24px;
+  border-bottom: 1px solid #ccc;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-radius: 20px;
+}
+
+.profile-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.back-button,
+.logout-button {
+  border: none;
+  background: transparent;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logout-button {
+  color: #e60023;
+}
+
+.back-button:hover,
+.logout-button:hover {
+  color: #000;
+}
+
+/* Profile Box */
+.profile-box {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  padding: 40px 20px;
+  margin: 30px 0;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(to right, #4f46e5, #9333ea);
+  color: white;
+  font-size: 36px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.name {
+  font-size: 22px;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.email {
+  font-size: 16px;
+  color: #555;
+}
+
+
+
+.bookings-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.briefcase-icon {
+  font-size: 20px;
+  background: linear-gradient(to right, #4f46e5, #9333ea);
+  color: white;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.booking-count {
+  background-color: #e0e7ff;
+  color: #4338ca;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* Booking Cards */
+.booking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+.booking-card {
+  max-width: 100%;
+  background-color: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 0 auto;
+  border: 1px solid #eee;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.6s ease-out forwards;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.booking-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-box {
+  background: #6366f1;
+  color: white;
+  padding: 6px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.status {
+  background-color: #e0f7e9;
+  color: #047857;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* No Bookings */
+.no-bookings {
+  text-align: center;
+  padding: 50px 20px;
+  color: #666;
+}
+
+.no-bookings-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+.user-details {
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: 600;
+  color: #555;
+  width: 90px;
+  display: inline-block;
+}
+
+.value {
+  color: #333;
+  flex: 1;
+}
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .booking-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .profile-box {
+    
+    width: 100%;
+    
+  }
+
+  
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 16px;
+  }
+
+  .profile-title {
+    font-size: 20px;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+  }
+
+  .name {
+    font-size: 18px;
+  }
+
+  .email {
+    word-break: break-word;
+    display: block;
+    max-width: 100%;
+    font-size: 14px;
+  }
+
+  .booking-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-card {
+    padding: 16px;
+  }
+
+  .card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .status {
+    margin-top: 8px;
+  }
+
+  .user-details {
+    padding: 12px;
+  }
+
+  .label {
+    width: 80px;
+    font-size: 14px;
+  }
+
+  .value {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-container {
+    padding: 16px 10px;
+  }
+
+  .logout-button,
+  .back-button {
+    font-size: 13px;
+  }
+
+  .booking-count {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .briefcase-icon {
+    padding: 6px;
+    font-size: 16px;
+  }
+
+  .booking-card {
+    padding: 14px;
+  }
+
+  .label {
+    width: 75px;
+    font-size: 13px;
+  }
+
+  .value {
+    font-size: 13px;
+  }
+}
+@media (max-width: 400px) {
+ 
+  .booking-card {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .label {
+    width: auto;
+    font-size: 13px;
+  }
+
+  .value {
+    font-size: 13px;
+  }
+
+  .profile-title {
+    font-size: 18px;
+  }
+}
+

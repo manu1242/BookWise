@@ -1,0 +1,127 @@
+.payments h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #1e293b;
+}
+
+.dark .payments h1 {
+  color: #e2e8f0;
+}
+
+.payment-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.dark .stat-card {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+.stat-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #3b82f6;
+}
+
+.stat-card p {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.payments-table {
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  overflow-x: auto;
+}
+
+.dark .payments-table {
+  background-color: #1e293b;
+  border-color: #334155;
+}
+
+.payments-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payments-table th,
+.payments-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dark .payments-table th,
+.dark .payments-table td {
+  border-bottom-color: #334155;
+}
+
+.payments-table th {
+  font-weight: 600;
+  color: #374151;
+  background-color: #f8fafc;
+}
+
+.dark .payments-table th {
+  color: #e2e8f0;
+  background-color: #374151;
+}
+
+.status {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status.completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status.pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.dark .status.completed {
+  background-color: #064e3b;
+  color: #a7f3d0;
+}
+
+.dark .status.pending {
+  background-color: #78350f;
+  color: #fcd34d;
+}
+
+@media (max-width: 768px) {
+  .payment-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .payments-table {
+    font-size: 0.875rem;
+  }
+  
+  .payments h1 {
+    font-size: 1.5rem;
+  }
+}

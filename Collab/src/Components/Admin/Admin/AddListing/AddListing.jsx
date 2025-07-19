@@ -55,13 +55,32 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
     }
   };
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
-    const imageUrls = files.map((file) => URL.createObjectURL(file));
-    setNewListing({
-      ...newListing,
-      images: [...newListing.images, ...imageUrls],
-    });
+    const formData = new FormData();
+
+    for (const file of files) {
+      formData.append("image", file); // must match multer's `.single("image")`
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/admin/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const uploadedUrl = res.data.url;
+        setNewListing((prev) => ({
+          ...prev,
+          images: [...prev.images, uploadedUrl],
+        }));
+      } catch (err) {
+        console.error("Image upload failed:", err);
+        alert("Image upload failed");
+      }
+    }
   };
 
   const addCategory = () => {

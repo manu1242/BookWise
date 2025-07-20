@@ -2,7 +2,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
+:root {
+  --primary: #a259ff;
+  --secondary: #6c63ff;
+  --bg: #d9d9eb;
+  --text: #22223b;
+  --muted: #bdbdbd;
+  --gradient: linear-gradient(135deg, #a259ff 0%, #6c63ff 100%);
+}
 
 
 @custom-variant dark (&:is(.dark *));

@@ -5,17 +5,17 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
-
+const categoryRoutes = require("./routes/categoryRoutes");
 dotenv.config();
 connectDB();
 
 const app = express();
 
-// CORS configuration
+
 app.use(
   cors({
-    origin: "*", // Change to your frontend URL in production
-    credentials: true,
+    origin: "http://localhost:5173", 
+    credentials: true, 
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -23,15 +23,18 @@ app.use(
 
 app.use(express.json());
 
-// Test route
+
 app.get("/", (req, res) => {
-  res.send("Hello ❤️ from BookWise backend!");
+  res.send("Hello  from BookWise backend!");
 });
+app.use('/', categoryRoutes);
+app.use("/api/categories", categoryRoutes); // ✅ mount at /api/categories
 
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api", bookingRoutes); 
 
 // ✅ Start the server directly here
 const PORT = process.env.PORT || 8000;

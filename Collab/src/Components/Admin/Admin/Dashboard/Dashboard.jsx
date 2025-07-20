@@ -9,20 +9,20 @@ const Dashboard = ({ payments = [] }) => {
   const [revenue, setRevenue] = useState(0);
 
   useEffect(() => {
-  axios
-    .get(`${import.meta.env.VITE_API_URL}/api/bookings/dashboard`)
-    .then((res) => {
-      setListings(res.data.AllBookings || []);
-      setUsers(res.data.AllUsers || []);
-      setRevenue(res.data.totalRevenue || 0);
-    })
-    .catch((err) => {
-      console.error("Error fetching dashboard data:", err);
-    });
-}, []);
+    axios
+      .get(`${import.meta.env.VITE_API_URL}/api/bookings/dashboard`)
+      .then((res) => {
+        setListings(res.data.AllBookings || []);
+        setUsers(res.data.AllUsers || []);
+        setRevenue(res.data.totalRevenue || 0);
+      })
+      .catch((err) => {
+        console.error("Error fetching dashboard data:", err);
+      });
+  }, []);
+ 
 
-
-  return (
+ return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Dashboard Overview</h1>
@@ -64,12 +64,17 @@ const Dashboard = ({ payments = [] }) => {
             {listings.slice(0, 3).map((booking) => (
               <div key={booking._id} className="listing-card">
                 <img
-                  src="/default-image.jpg" // use a static or category-based image
-                  alt={booking.category}
+                  src={
+                    booking.images && booking.images.length > 0
+                      ? booking.images[0]
+                      : "/placeholder.jpg"
+                  } 
+                  alt={booking.providerName}
+                  className="booking-image"
                 />
 
                 <div className="listing-info">
-                  <h3>{booking.name || "Unknown Name"}</h3>
+                  <h3>{booking.providerName || "Unknown Name"}</h3>
 
                   <p className="location">
                     <MapPin size={16} />
@@ -104,7 +109,7 @@ const Dashboard = ({ payments = [] }) => {
             {payments.slice(0, 5).map((payment) => (
               <div key={payment.id} className="payment-item">
                 <div className="payment-info">
-                  <h4>{payment.listing}</h4>
+                  <h4>{users.name}</h4>
                   <p>{payment.date}</p>
                 </div>
                 <div className="payment-amount">

@@ -4,6 +4,7 @@ import phone from "../../assets/phone.svg";
 import avatar from "../../assets/Avatar.svg";
 import {  useNavigate } from "react-router-dom";
 import Contact from "../contact/Contact";
+import Footer from '../../pages/Footer/Footer'
 import "./Landingpage.css";
 
 
@@ -25,7 +26,7 @@ const Landingpage = () => {
       <section className="hero">
         <div className="hero-content">
           <span className="hero-badge">Best Booking Management</span>
-          <h1>
+          <h1 x>
             Enhance your Booking control <br /> with{" "}
             <span className="highlight">BookWise</span>
           </h1>
@@ -59,24 +60,9 @@ const Landingpage = () => {
                 }}
               />
             </span>
-            <div className="history-card">
-              <div className="card-title">Booking History</div>
-              <ul>
-                <li>
-                  <span className="dot green"></span> Saloon - 10:00 AM, June 28{" "}
-                  <span className="amount">₹240</span>
-                </li>
-                <li>
-                  <span className="dot blue"></span> Treatment - 2:30 PM, June
-                  26 <span className="amount">₹975</span>
-                </li>
-              </ul>
-            </div>
+            
 
-            <div className="income-card">
-              <div className="card-title">Calender Booking</div>
-              <div className="income-amount">12/14/2021</div>
-            </div>
+          
           </div>
         </div>
       </section>
@@ -219,6 +205,7 @@ const Landingpage = () => {
       </section>
       {}
       <Contact/>
+      <Footer />
     </div>
   );
 };

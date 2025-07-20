@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import BookingModal from "./BookingModal";
 import BookingConfirmation from "./BookingConfrim";
-import bookingOptions from "../../Data/MockData";
 import { toast } from "react-toastify";
-import emailjs from "emailjs-com";
+import { sendBookingConfirmationEmail } from "../../utils/email";
 import ProfileIcon from "../../Components/profile/ProfileIcon";
 import "./booking.css";
 
 const BookingApp = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [categories, setCategories] = useState([]);
   const [serviceProviders, setServiceProviders] = useState([]);
   const [filteredProviders, setFilteredProviders] = useState([]);
   const [selectedProvider, setSelectedProvider] = useState(null);
@@ -16,25 +16,47 @@ const BookingApp = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
 
-  const categories = [
-    { id: "all", name: "All Services", icon: "🏢" },
-    { id: "salon", name: "Salon", icon: "💇" },
-    { id: "doctor", name: "Doctor", icon: "👨‍⚕️" },
-    { id: "hotel", name: "Hotel", icon: "🏨" },
-  ];
-
   useEffect(() => {
-    setServiceProviders(bookingOptions);
-    setFilteredProviders(bookingOptions);
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/categories`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.categories)) {
+          setCategories([{ _id: "all", name: "All Services" }, ...data.categories]);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    const fetchBookings = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/all-bookings`);
+        const text = await res.text();
+        const data = JSON.parse(text);
+        if (data.success) {
+          setServiceProviders(data.bookings);
+          setFilteredProviders(data.bookings);
+        }
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    };
+
+    fetchCategories();
+    fetchBookings();
   }, []);
 
   useEffect(() => {
     if (selectedCategory === "all") {
       setFilteredProviders(serviceProviders);
     } else {
-      setFilteredProviders(
-        serviceProviders.filter((p) => p.category === selectedCategory)
+      const filtered = serviceProviders.filter(
+        (provider) =>
+          provider.category &&
+          provider.category.toLowerCase() === selectedCategory
       );
+      setFilteredProviders(filtered);
     }
   }, [selectedCategory, serviceProviders]);
 
@@ -56,7 +78,7 @@ const BookingApp = () => {
       const result = await response.json();
 
       if (result.success) {
-        toast("Booking confirmed");
+        toast.success("Booking confirmed");
 
         const fullDetails = {
           ...bookingData,
@@ -64,39 +86,18 @@ const BookingApp = () => {
           promoCode: "PROMO40OFF",
         };
 
-        setBookingDetails(fullDetails); // ✅ fixed
+        setBookingDetails(fullDetails);
         setShowConfirmation(true);
         setIsModalOpen(false);
         setSelectedProvider(null);
 
-        // Send confirmation email
-        emailjs
-          .send(
-            import.meta.env.VITE_EMAILJS_SERVICE_ID,
-            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-            {
-              name: fullDetails.name,
-              email: fullDetails.email,
-              mobile: fullDetails.mobile || "N/A",
-              date: fullDetails.date,
-              time: fullDetails.time,
-              location: fullDetails.location,
-              reference: fullDetails.reference,
-              promoCode: fullDetails.promoCode,
-            },
-            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-          )
-          .then((res) => {
-            console.log("Email sent:", res.status);
-          })
-          .catch((err) => {
-            console.error("Email failed:", err);
-          });
+        await sendBookingConfirmationEmail(fullDetails);
       } else {
-        toast("Something went wrong");
+        toast.error("Booking failed");
       }
     } catch (error) {
-      toast(error.message || "Error occurred");
+      console.error("Booking error:", error.message);
+      toast.error("Error occurred");
     }
   };
 
@@ -108,28 +109,36 @@ const BookingApp = () => {
       <h1 className="booking-title">Book Your Service</h1>
       <p className="booking-subtitle">Find and book top service providers</p>
 
-      <div className="category-buttons">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
-            onClick={() => setSelectedCategory(category.id)}
-          >
-            <span>{category.icon}</span> {category.name}
-          </button>
-        ))}
+      <div className="filter-dropdown">
+        <label htmlFor="category-select">Filter by Category:</label>
+        <select
+          id="category-select"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="all">All Services</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat.name.toLowerCase()}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="card-grid">
         {filteredProviders.map((provider) => (
-          <div className="card" key={provider.id}>
+          <div className="card" key={provider._id}>
             <div className="card-image-wrapper">
               <img
-                src={provider.image}
-                alt={provider.name}
+                src={
+                  provider.images && provider.images.length > 0
+                    ? provider.images[0]
+                    : "/placeholder.jpg"
+                }
+                alt={provider.providerName}
                 className="card-image"
               />
-              <h3 className="card-name-overlay">{provider.name}</h3>
+              <h3 className="card-name-overlay">{provider.providerName}</h3>
             </div>
             <div className="card-content">
               <div className="card-header">
@@ -138,18 +147,12 @@ const BookingApp = () => {
               </div>
               <div className="content-text">
                 <p className="location">📍 {provider.location}</p>
-                <p className="availability">🕒 {provider.availability}</p>
-                <p className="contact">📞 {provider.Contact}</p>
                 <p className="desc">{provider.description}</p>
+                <p className="contact">📞 {provider.phone}</p>
               </div>
               <div className="card-footer">
-                <span className="price">
-                  ₹{provider.price}/{provider.unit || "service"}
-                </span>
-                <button
-                  className="book-now"
-                  onClick={() => handleBookNow(provider)}
-                >
+                <span className="price">₹{provider.price}/service</span>
+                <button className="book-now" onClick={() => handleBookNow(provider)}>
                   Book Now
                 </button>
               </div>

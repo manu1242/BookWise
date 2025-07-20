@@ -3,6 +3,7 @@ import { Calendar, Clock, Check, Bell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ProfileIcon from "../../Components/profile/ProfileIcon";
 
+
 import "./Home.css";
 
 const Home = () => {
@@ -123,6 +124,8 @@ const Home = () => {
           <button className="cta-button" onClick={handleStartBooking}>Book Your First Appointment</button>
         </div>
       </div>
+      
+      
     </div>
   );
 };

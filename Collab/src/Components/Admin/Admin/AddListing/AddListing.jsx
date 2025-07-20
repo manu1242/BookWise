@@ -1,43 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
 import "./AddListing.css";
 import axios from "axios";
 
-const AddListing = ({ categories, onAddListing, onAddCategory }) => {
+const AddListing = ({ onAddListing, onAddCategory }) => {
   const [newListing, setNewListing] = useState({
     providerName: "",
     phone: "",
+    email: "",
     location: "",
     price: "",
     rating: "",
     category: "",
     description: "",
-    images: [],
+    image: null,
   });
+
+  const [availableCategories, setAvailableCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/categories`
+        );
+        if (res.data.success) {
+          setAvailableCategories(res.data.categories);
+        }
+      } catch (error) {
+        console.error("Error fetching categories", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const addCategory = async () => {
+    const newCategory = prompt("Enter new category name:");
+    if (newCategory) {
+      try {
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/categories`,
+          {
+            name: newCategory,
+          }
+        );
+        if (res.data.success) {
+          setAvailableCategories((prev) => [...prev, res.data.category]);
+        }
+      } catch (err) {
+        console.error("Error adding category", err);
+      }
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const bookingData = {
-      providerName: newListing.providerName,
-      phone: Number(newListing.phone),
-      email: newListing.email,
-      price: Number(newListing.price),
-      location: newListing.location,
-      category: newListing.category,
-      images: newListing.images, // currently just URLs
-      rating: Number(newListing.rating),
-    };
+    const formData = new FormData();
+    formData.append("providerName", newListing.providerName);
+    formData.append("phone", newListing.phone);
+    formData.append("email", newListing.email);
+    formData.append("price", newListing.price);
+    formData.append("location", newListing.location);
+    formData.append("category", newListing.category);
+    formData.append("rating", newListing.rating);
+    formData.append("description", newListing.description);
+    formData.append("image", newListing.image);
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/bookings/create`,
-        bookingData
+        `${import.meta.env.VITE_API_URL}/api/admin/create`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-
-      console.log("Booking added:", res.data);
       alert("Booking added!");
-
       setNewListing({
         providerName: "",
         phone: "",
@@ -47,45 +88,21 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
         rating: "",
         category: "",
         description: "",
-        images: [],
+        image: null,
       });
     } catch (err) {
       console.error("Error submitting booking:", err);
       alert("Error submitting booking");
     }
   };
+  const [preview, setPreview] = useState(null);
 
-  const handleImageUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    const formData = new FormData();
-
-    for (const file of files) {
-      formData.append("image", file); // must match multer's `.single("image")`
-      try {
-        const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/admin/upload`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        const uploadedUrl = res.data.url;
-        setNewListing((prev) => ({
-          ...prev,
-          images: [...prev.images, uploadedUrl],
-        }));
-      } catch (err) {
-        console.error("Image upload failed:", err);
-        alert("Image upload failed");
-      }
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewListing({ ...newListing, image: file });
+      setPreview(URL.createObjectURL(file));
     }
-  };
-
-  const addCategory = () => {
-    const newCategory = prompt("Enter new category name:");
-    onAddCategory(newCategory);
   };
 
   return (
@@ -115,10 +132,11 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
             required
           />
         </div>
+
         <div className="form-group">
           <label>Email</label>
           <input
-            type="tel"
+            type="email"
             value={newListing.email}
             onChange={(e) =>
               setNewListing({ ...newListing, email: e.target.value })
@@ -148,6 +166,7 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
               onChange={(e) =>
                 setNewListing({ ...newListing, price: e.target.value })
               }
+              required
             />
           </div>
           <div className="form-group">
@@ -161,6 +180,7 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
               onChange={(e) =>
                 setNewListing({ ...newListing, rating: e.target.value })
               }
+              required
             />
           </div>
         </div>
@@ -173,11 +193,12 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
               onChange={(e) =>
                 setNewListing({ ...newListing, category: e.target.value })
               }
+              required
             >
               <option value="">Select Category</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
+              {availableCategories.map((cat) => (
+                <option key={cat._id} value={cat.name}>
+                  {cat.name}
                 </option>
               ))}
             </select>
@@ -196,21 +217,32 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
           <div className="image-upload">
             <input
               type="file"
-              multiple
               accept="image/*"
-              onChange={handleImageUpload}
+              onChange={handleImageChange}
+              required
               id="image-upload"
             />
             <label htmlFor="image-upload" className="upload-btn">
               <Upload size={20} />
-              Upload Images
+              Upload Image
             </label>
           </div>
-          {newListing.images.length > 0 && (
+
+          {/* ✅ Image Preview Section */}
+          {preview && (
             <div className="image-preview">
-              {newListing.images.map((img, index) => (
-                <img key={index} src={img} alt={`Preview ${index}`} />
-              ))}
+              <img
+                src={preview}
+                alt="Preview"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                  marginTop: "10px",
+                  border: "1px solid #ccc",
+                }}
+              />
             </div>
           )}
         </div>
@@ -222,6 +254,7 @@ const AddListing = ({ categories, onAddListing, onAddCategory }) => {
             onChange={(e) =>
               setNewListing({ ...newListing, description: e.target.value })
             }
+            required
             rows="4"
           />
         </div>

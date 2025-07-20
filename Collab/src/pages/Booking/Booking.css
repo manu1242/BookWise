@@ -138,6 +138,39 @@
  .card-image {
   filter: brightness(0.9) contrast(1.1);
 }
+.filter-dropdown {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.filter-dropdown label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.filter-dropdown select {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.filter-dropdown select:hover,
+.filter-dropdown select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
 
 
 .card-header {

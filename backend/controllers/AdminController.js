@@ -2,28 +2,6 @@ const Booking = require("../models/Booking");
 const User = require("../models/User");
 const upload = require("../middleware/multer");
 
-exports.uploadFile = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ success: false, message: "No image uploaded" });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: "Image uploaded successfully",
-      imageUrl: req.file.path,      // Cloudinary URL
-      publicId: req.file.filename,  // Cloudinary public_id
-    });
-  } catch (error) {
-    console.error("❌ Upload error:", error);
-    return res.status(500).json({
-      success: false,
-      message: "Image upload failed",
-      error: error.message,
-    });
-  }
-};
-
 exports.getDashboardData = async (req, res) => {
   try {
     const AllBookings = await Booking.find().sort({ createdAt: -1 });
@@ -46,11 +24,55 @@ exports.getDashboardData = async (req, res) => {
 
 exports.createBooking = async (req, res) => {
   try {
-    const booking = new Booking(req.body);
-    const savedBooking = await booking.save();
-    res.status(201).json(savedBooking);
+    const {
+      providerName,
+      phone,
+      email,
+      price,
+      location,
+      category,
+      rating,
+      description,
+      
+    } = req.body;
+
+    const image = req.file ? req.file.path : null;
+
+    // Validate input
+    if (
+      !providerName ||
+      !phone ||
+      !email ||
+      !price ||
+      !location ||
+      !category ||
+      !rating ||
+      !image
+    ) {
+      return res.status(400).json({ message: "Missing required fields" ,image});
+    }
+
+    const newBooking = new Booking({
+      providerName,
+      phone,
+      email,
+      price,
+      location,
+      category,
+      rating,
+      description,
+      images: [image],
+    });
+
+    const savedBooking = await newBooking.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Booking created successfully",
+      data: savedBooking,
+    });
   } catch (error) {
     console.error("Error creating booking:", error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };

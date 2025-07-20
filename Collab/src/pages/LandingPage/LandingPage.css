@@ -1,12 +1,3 @@
-:root {
-  --primary: #a259ff;
-  --secondary: #6c63ff;
-  --bg: #d9d9eb;
-  --text: #22223b;
-  --muted: #bdbdbd;
-  --gradient: linear-gradient(135deg, #a259ff 0%, #6c63ff 100%);
-}
-
 body {
   margin: 0;
   font-family: "Inter", Arial, sans-serif;
@@ -49,34 +40,40 @@ body {
   animation-delay: 0.3s;
   opacity: 0;
 }
+
 @keyframes fadeInRight {
   0% {
     opacity: 0;
-    transform: translateX(280px); /* start off to the right */
+    transform: translateX(280px);
   }
   100% {
     opacity: 1;
-    transform: translateX(0);     /* move to original position */
+    transform: translateX(0);
   }
 }
 
 .navbar-btn:hover {
   background: #6c63ff;
 }
-
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  padding: 4rem 8vw 0 8vw;
-  gap: 2.5rem;
+  justify-content: center;
+  padding: 4rem 5vw 0;
+  gap: 2rem;
 }
 
 .hero-content {
-  flex: 1 1 350px;
-  min-width: 320px;
+  flex: 1 1 300px;
+  max-width: 600px;
+  color: #555;
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
 }
+
 
 .hero-badge {
   background: var(--gradient);
@@ -93,6 +90,7 @@ body {
 }
 
 .hero-content h1 {
+  color: #ffffff;
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 800;
   margin-bottom: 1rem;
@@ -108,12 +106,16 @@ body {
   color: transparent;
   padding: 0.2rem 0.8rem;
   border-radius: 10px;
-  font-size: clamp(0.8rem, 3vw, 2.1rem);
+  font-size: clamp(1rem, 4vw, 2rem);
   font-weight: 700;
   animation: fadeInLeft 1.3s ease-out forwards;
   animation-delay: 0.2s;
   opacity: 0;
+  text-align: center;
+  line-height: 1.2;
+  display: inline-block;
 }
+
 @keyframes fadeInLeft {
   0% {
     opacity: 0;
@@ -125,13 +127,6 @@ body {
   }
 }
 
-.hero-content p {
-  color: #555;
-  font-size: clamp(1rem, 1.2vw, 1.2rem);
-  animation: fadeInUp 1s ease-out forwards;
-  animation-delay: 0.5s;
-  opacity: 0; /* Required for animation-delay to work */
-}
 @keyframes fadeInUp {
   0% {
     opacity: 0;
@@ -143,13 +138,13 @@ body {
   }
 }
 
-.hero-image {
+/* .hero-image {
   flex: 1 1 350px;
   min-width: 320px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .phone-mockup {
   position: relative;
@@ -162,47 +157,14 @@ body {
   justify-content: center;
 }
 
-.history-card,
-.income-card {
-  position: absolute;
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(162, 89, 255, 0.1);
-  padding: 1rem 1.2rem;
+.tagline {
   font-size: 1rem;
-}
-
-.history-card {
-  box-shadow: 0 70px 84px 50px rgba(75, 33, 130, 0.118);
-  top: 40px;
-  left: -150px;
-  width: 190px;
-}
-
-.income-card {
-  top: 60px;
-  right: -80px;
-  width: 140px;
-  text-align: right;
-}
-
-.card-title {
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.history-card ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.history-card li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-  font-size: 0.98rem;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 100%;
+  margin: 0 auto;
+  word-break: break-word;
+  padding: 0 1rem;
 }
 
 .dot {
@@ -372,6 +334,7 @@ body {
   border-radius: 8px;
   transition: width 0.3s;
 }
+
 .progress-bar.purple {
   background: #6c63ff;
 }
@@ -467,6 +430,7 @@ body {
   color: #888888;
   font-weight: 400;
 }
+
 .get-started-wrapper {
   display: none;
 }
@@ -483,6 +447,7 @@ body {
   transition: background 0.2s;
   animation: fadeInUps 1s ease-out forwards;
 }
+
 @keyframes fadeInUps {
   0% {
     opacity: 0;
@@ -504,7 +469,6 @@ body {
     justify-content: center;
     margin-top: 2rem;
   }
-
   .navbar-btn {
     display: none;
   }
@@ -528,57 +492,37 @@ body {
     gap: 1rem;
     padding: 1rem 4vw 0;
   }
-
   .navbar-logo {
-   
-    
     font-size: 2rem;
     text-align: center;
     width: 100%;
     margin-top: 0;
   }
-
   .navbar-btn {
     width: 100%;
     max-width: 180px;
     font-size: 0.8rem;
   }
-
   .trusted-logos {
     gap: 1rem;
   }
-
+  .highlight {
+    font-size: 2rem;
+  }
+  .tagline {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+    line-height: 1.4;
+    text-align: center;
+    margin-right: 29px;
+  }
   .phone-mockup {
     width: 220px;
     height: 300px;
   }
-
-  .history-card{
-    margin-top: 190px;
-    margin-left: 70px;
-    width: 200px;
-    font-size: 0.6rem;
-    padding: 0.6rem 0.8rem;
-    animation: fadeInLeft 1s ease-out forwards;
-  animation-delay: 0.2s;
-  opacity: 0;
-  }
-  .income-card{
-    margin-top: -80px;
-    margin-left: 70px;
-    width: 150px;
-    font-size: 0.6rem;
-    padding: 0.6rem 0.8rem;
-    animation: fadeInRight 1s ease-out forwards;
-  animation-delay: 0.2s;
-  opacity: 0;
-
-  }
-
   .workflow {
     padding: 3rem 4vw;
   }
-
   .workflow-card {
     width: 100%;
     padding: 1.5rem;

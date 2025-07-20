@@ -99,13 +99,13 @@
   background-color: #334155;
   border-color: #475569;
 }
-
-.listing-card img {
+.booking-image {
   width: 80px;
-  height: 60px;
-  object-fit: cover;
+  height: 80px;
+  object-fit: contain;
   border-radius: 0.5rem;
 }
+
 
 .listing-info h3 {
   font-size: 0.875rem;

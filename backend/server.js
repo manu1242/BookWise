@@ -11,11 +11,10 @@ connectDB();
 
 const app = express();
 
-
 app.use(
   cors({
-    origin: "http://localhost:5173", 
-    credentials: true, 
+    origin: "http://localhost:5173",
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -23,21 +22,19 @@ app.use(
 
 app.use(express.json());
 
-
 app.get("/", (req, res) => {
   res.send("Hello  from BookWise backend!");
 });
-app.use('/', categoryRoutes);
-app.use("/api/categories", categoryRoutes); // ✅ mount at /api/categories
+app.use("/", categoryRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/bookings", bookingRoutes);
-app.use("/api", bookingRoutes); 
+app.use("/api", bookingRoutes);
 
-// ✅ Start the server directly here
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

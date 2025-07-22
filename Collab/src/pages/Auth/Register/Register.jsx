@@ -8,8 +8,10 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false); // ✅ Track admin checkbox
+  const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,6 +23,8 @@ const Register = () => {
     }
 
     setError("");
+    setMessage("");
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -42,14 +46,20 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        alert("Registration successful!");
-        navigate("/login");
+        if (isAdmin) {
+          setMessage("✅ Admin request sent. Please wait for email approval.");
+        } else {
+          alert("✅ Registration successful!");
+          navigate("/login");
+        }
       } else {
         setError(data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Error:", error);
       setError("An error occurred during registration.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -68,6 +78,7 @@ const Register = () => {
               placeholder="Username"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
+              disabled={loading}
             />
 
             <label htmlFor="email">Email</label>
@@ -79,6 +90,7 @@ const Register = () => {
               placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={loading}
             />
 
             <label htmlFor="password">Password</label>
@@ -90,15 +102,16 @@ const Register = () => {
               placeholder="••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={loading}
             />
 
-            {/* ✅ Admin checkbox */}
             <div className="admin-checkbox">
               <label>
                 <input
                   type="checkbox"
                   checked={isAdmin}
                   onChange={(e) => setIsAdmin(e.target.checked)}
+                  disabled={loading}
                 />
                 Register as Admin
               </label>
@@ -106,14 +119,15 @@ const Register = () => {
 
             <div>
               <label>
-                <input type="checkbox" /> Remember me
+                <input type="checkbox" disabled={loading} /> Remember me
               </label>
             </div>
 
             {error && <p style={{ color: "red" }}>{error}</p>}
+            {message && <p style={{ color: "green" }}>{message}</p>}
 
-            <button className="sub-Btn" type="submit">
-              Sign Up
+            <button className="sub-Btn" type="submit" disabled={loading}>
+              {loading ? "Submitting..." : "Sign Up"}
             </button>
           </form>
 
@@ -125,14 +139,14 @@ const Register = () => {
         <div className="login-right">
           <h4 className="oauth-title">Or</h4>
 
-          <button className="oauth-btn google">
+          <button className="oauth-btn google" disabled={loading}>
             <span className="oauth-content">
               <FcGoogle className="oauth-icon" />
               Continue with Google
             </span>
           </button>
 
-          <button className="oauth-btn apple">
+          <button className="oauth-btn apple" disabled={loading}>
             <span className="oauth-content">
               <FaApple className="oauth-icon" />
               Continue with Apple

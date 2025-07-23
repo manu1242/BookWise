@@ -8,6 +8,7 @@ const ViewListings = ({ listings, onDeleteListing }) => {
   const filteredListings = listings.filter((listing) =>
     listing.providerName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+ 
 
   return (
     <div className="view-listings">

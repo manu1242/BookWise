@@ -1,10 +1,11 @@
 const Booking = require("../models/Booking");
 const User = require("../models/User");
 const upload = require("../middleware/multer");
+const BookedConfirm = require("../models/BookedConfirm");
 
 exports.getDashboardData = async (req, res) => {
   try {
-    const AllBookings = await Booking.find().sort({ createdAt: -1 });
+    const AllBookings = await BookedConfirm.find().sort({ createdAt: -1 });
     const AllUsers = await User.find();
     const totalRevenue = AllBookings.reduce(
       (sum, booking) => sum + (booking.price || 0),
@@ -38,7 +39,7 @@ exports.createBooking = async (req, res) => {
 
     const image = req.file ? req.file.path : null;
 
-    // Validate input
+    
     if (
       !providerName ||
       !phone ||

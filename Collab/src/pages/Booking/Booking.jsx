@@ -67,7 +67,7 @@ const BookingApp = () => {
 
   const handleBookingSubmit = async (bookingData) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/book`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/book-confirm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

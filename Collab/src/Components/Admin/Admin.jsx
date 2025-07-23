@@ -21,7 +21,7 @@ const Admin = () => {
   const [users, setUsers] = useState([]);
   const [revenue, setRevenue] = useState(0);
 
-  // Fetch real backend data once
+
   useEffect(() => {
     fetchDashboardData();
   }, []);

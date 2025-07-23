@@ -89,19 +89,8 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Services */}
-          <div className="footer-section">
-            <h3 className="section-title">Popular Services</h3>
-            <ul className="service-list">
-              {services.map((service) => (
-                <li key={service}>
-                  <a href="#" className="service-link">
-                    {service}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+         
+          
 
           {/* Contact Info */}
           <div className="footer-section">
@@ -112,8 +101,8 @@ const Footer = () => {
                   <MapPin size={18} />
                 </div>
                 <div className="contact-details">
-                  <span>123 Innovation Street</span>
-                  <span>Tech City, TC 12345</span>
+                  <span>Hyderabad </span>
+                  <span>HITech City, st ,888801</span>
                 </div>
               </div>
               
@@ -122,7 +111,7 @@ const Footer = () => {
                   <Phone size={18} />
                 </div>
                 <a href="tel:+1234567890" className="contact-link">
-                  +1 (234) 567-8900
+                  +91 888-555-333-22
                 </a>
               </div>
               

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import emailjs from "emailjs-com";
 import "./bookingModal.css";
 
 const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
@@ -42,7 +43,7 @@ const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/book`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/Email-Booking`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
@@ -51,7 +52,23 @@ const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
       const data = await response.json();
 
       if (data.success) {
-        toast.success("Booking successful!");
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID,
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+          {
+            provider_name: bookingData.providerName,
+            booking_date: bookingData.date,
+            booking_time: bookingData.time,
+            customer_name: bookingData.name,
+            customer_mobile: bookingData.mobile,
+            provider_location: bookingData.location,
+            price_unit: `₹${bookingData.price}/${bookingData.unit}`,
+            to_email: bookingData.customerEmail,
+          },
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        );
+
+        toast.success("Booking confirmed and email sent!");
         setIsSubmitting(false);
         onSubmit({
           name,
@@ -93,55 +110,22 @@ const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
 
         <form onSubmit={handleSubmit} className="booking-form">
           <label>Name</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
           <label>Mobile</label>
-          <input
-            type="number"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-            required
-          />
-
+          <input type="number" value={mobile} onChange={(e) => setMobile(e.target.value)} required />
           <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <label>Date</label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
           <label>Time</label>
-          <select
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            required
-          >
+          <select value={time} onChange={(e) => setTime(e.target.value)} required>
             <option value="">Select a time</option>
             {timeSlots.map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
+              <option key={slot} value={slot}>{slot}</option>
             ))}
           </select>
-
           <div className="form-actions">
-            <button type="button" onClick={onClose} disabled={isSubmitting}>
-              Cancel
-            </button>
+            <button type="button" onClick={onClose} disabled={isSubmitting}>Cancel</button>
             <button type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Booking..." : "Confirm Booking"}
             </button>

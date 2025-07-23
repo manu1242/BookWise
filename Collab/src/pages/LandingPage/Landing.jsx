@@ -10,6 +10,10 @@ import "./Landingpage.css";
 
 const Landingpage = () => {
   const navigate = useNavigate();
+  const handleDealerClick = () => {
+    navigate('/dealers');
+  };
+
 
   return (
     <div className="landingpage">
@@ -35,6 +39,7 @@ const Landingpage = () => {
             Book with confidence — flexible slots, secure checkout, and instant
             updates.
           </p>
+           <button onClick={handleDealerClick}>Want to become a Dealer</button>
 
           <div className="get-started-wrapper">
             <button
@@ -75,6 +80,7 @@ const Landingpage = () => {
           <span>Momets</span>
           <span>Coreday</span>
           <span>Optum</span>
+        
         </div>
       </div>
 

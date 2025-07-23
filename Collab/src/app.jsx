@@ -10,6 +10,7 @@ import Booking from "./pages/Booking/Booking";
 import Loader from "./Components/Loader/Loader";
 import BookingConfirmation from "./pages/Booking/BookingConfrim";
 import Admin from "./Components/Admin/Admin"
+import Dealer from './Components/Dealer/Dealer'
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
   }, [location]);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500);
+    const timer = setTimeout(() => setLoading(false), 2700);
     return () => clearTimeout(timer);
   }, []);
 
@@ -38,10 +39,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/dealers" element={<Dealer />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/booking" element={<Booking />} />
-      
-
         <Route path="/bookingConfirm" element={<BookingConfirmation />} />
         <Route path="/contact" element={<Contact />} />
 

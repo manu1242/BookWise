@@ -39,7 +39,7 @@ const Landingpage = () => {
             Book with confidence — flexible slots, secure checkout, and instant
             updates.
           </p>
-           <button onClick={handleDealerClick}>Want to become a Dealer</button>
+           <button  className="dealer-Btn"onClick={handleDealerClick}>Want to become a<span className=" dealer-btn"> Dealer</span></button>
 
           <div className="get-started-wrapper">
             <button

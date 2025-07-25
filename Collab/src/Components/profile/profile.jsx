@@ -22,6 +22,8 @@ const Profile = () => {
           `http://localhost:5000/api/bookings?email=${storedEmail}`
         );
         const data = await res.json();
+
+        console.log("Booking data from backend:", data);
         if (data.success) setBookings(data.bookings);
       } catch (error) {
         console.error("Error fetching bookings:", error);
@@ -83,12 +85,13 @@ const Profile = () => {
                   <div className="card-header">
                     <div className="icon-box">👤</div>
                     <div className="provider-name">{b.providerName}</div>
-                    
                   </div>
+
                   
 
                   <span className="status">Confirmed</span>
                 </div>
+
                 <div className="user-details">
                   <div className="detail-item">
                     <span className="label">Category:</span>

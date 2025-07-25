@@ -14,5 +14,9 @@ router.post(
 );
 router.post("/book", bookingController.createBooking);
 router.get("/bookings", bookingController.getBookingsByEmail);
+const authenticate = require("../middleware/authMiddleware");
+
+router.get("/me", authenticate, adminController.getAdminProfile);
+
 
 module.exports = router;

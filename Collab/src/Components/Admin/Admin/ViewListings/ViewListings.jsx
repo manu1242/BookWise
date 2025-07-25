@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { Search, MapPin, Phone, Star, Edit, Trash2 } from 'lucide-react';
-import './ViewListings.css';
+import React, { useState } from "react";
+import { Search, MapPin, Phone, Star, Edit, Trash2 } from "lucide-react";
+import "./ViewListings.css";
 
 const ViewListings = ({ listings, onDeleteListing }) => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
+  // Filter listings based on search input
   const filteredListings = listings.filter((listing) =>
     listing.providerName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
- 
 
   return (
     <div className="view-listings">
@@ -29,7 +29,11 @@ const ViewListings = ({ listings, onDeleteListing }) => {
         {filteredListings.map((listing) => (
           <div key={listing._id} className="listing-card">
             <img
-              src={listing.images && listing.images.length > 0 ? listing.images[0] : '/placeholder.jpg'}
+              src={
+                listing.images && listing.images.length > 0
+                  ? listing.images[0]
+                  : "/placeholder.jpg"
+              }
               alt={listing.providerName}
             />
             <div className="listing-content">
@@ -65,7 +69,11 @@ const ViewListings = ({ listings, onDeleteListing }) => {
                 </button>
                 <button
                   className="delete-btn"
-                  onClick={() => onDeleteListing(listing._id)}
+                  onClick={() => {
+                    if (window.confirm("Are you sure you want to delete this listing?")) {
+                      onDeleteListing(listing._id);
+                    }
+                  }}
                 >
                   <Trash2 size={16} />
                 </button>
@@ -73,6 +81,7 @@ const ViewListings = ({ listings, onDeleteListing }) => {
             </div>
           </div>
         ))}
+
         {filteredListings.length === 0 && (
           <p className="no-results">No listings found.</p>
         )}

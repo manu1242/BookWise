@@ -1,14 +1,47 @@
-import React, { useState } from 'react';
-import { User, Edit } from 'lucide-react';
-import './Profile.css';
+import React, { useEffect, useState } from "react";
+import { User, Edit } from "lucide-react";
+import "./Profile.css";
 
-const Profile = () => {
-  const [adminProfile] = useState({
-    name: 'John Admin',
-    email: 'admin@bookingplatform.com',
-    phone: '+1 234 567 8900',
-    role: 'Super Admin'
-  });
+const AdminProfile = () => {
+  const[admin, setAdmin] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    const token = localStorage.getItem("token");
+
+    if (role !== "admin" || !token) {
+      window.location.href = "/login";
+      return;
+    }
+
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/admin/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+        if (res.ok) {
+          setAdmin(data.user);
+        } else {
+          setError(data.message);
+        }
+      } catch (err) {
+        setError("Error fetching admin profile");
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (!admin) return <p>Loading admin profile...</p>;
 
   return (
     <div className="profile">
@@ -19,22 +52,22 @@ const Profile = () => {
             <User size={48} />
           </div>
           <div className="profile-info">
-            <h2>{adminProfile.name}</h2>
-            <p>{adminProfile.role}</p>
+            <h2>{admin.name}</h2>
+            <p>{admin.role}</p>
           </div>
         </div>
         <div className="profile-details">
           <div className="detail-item">
             <label>Email</label>
-            <span>{adminProfile.email}</span>
+            <span>{admin.email}</span>
           </div>
           <div className="detail-item">
             <label>Phone</label>
-            <span>{adminProfile.phone}</span>
+            <span>{admin.phone || "Not Provided"}</span>
           </div>
           <div className="detail-item">
             <label>Role</label>
-            <span>{adminProfile.role}</span>
+            <span>{admin.role}</span>
           </div>
         </div>
         <button className="edit-profile-btn">
@@ -46,4 +79,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AdminProfile;

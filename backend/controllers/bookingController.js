@@ -1,6 +1,6 @@
 const BookedConfirm = require("../models/BookedConfirm");
 const Booking = require("../models/Booking");
-const EmailBooking = require("../models/EmailBooking");;
+const EmailBooking = require("../models/EmailBooking");
 
 require("dotenv").config();
 
@@ -16,28 +16,65 @@ exports.createBooking = async (req, res) => {
 };
 exports.BookedConfirmed = async (req, res) => {
   try {
-    const booking = new BookedConfirm(req.body);
+    console.log("Received request body:", req.body);
+
+    const {
+      providerName,
+      category,
+      price,
+      location,
+      date,
+      time,
+      name,
+      mobile,
+      customerEmail,
+      loggedInEmail,
+      providerId,
+      images, // ✅ add this
+      rating, // ✅ optionally add this if you're passing it
+    } = req.body;
+
+    const booking = new BookedConfirm({
+      providerName,
+      category,
+      price,
+      location,
+      date,
+      time,
+      name,
+      phone: mobile,
+      email: customerEmail,
+      providerId,
+      images,
+      rating: rating || 0,
+    });
+
     await booking.save();
-    res
-      .status(201)
-      .json({ success: true, message: "Booking confirmed", booking });
+    console.log("Booking saved successfully:", booking);
+
+    res.status(201).json({
+      success: true,
+      message: "Booking confirmed",
+      booking,
+    });
   } catch (error) {
-    console.error("Booking Confirmatins error:", error.message);
-    res.status(500).json({ sucess: false, error: err.message });
+    console.error("Booking Confirmations error:", error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
 exports.getBookingsByEmail = async (req, res) => {
   try {
     const { email } = req.query;
-    const bookings = await Booking.find({ loggedInEmail: email });
+    console.log("Incoming email from query:", email); 
+    const bookings = await EmailBooking.find({ loggedInEmail: email });
+    console.log("Found bookings:", bookings);
 
     res.json({ success: true, bookings });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 };
-// controllers/bookingController.js
 
 exports.getAllBookings = async (req, res) => {
   try {
@@ -48,8 +85,7 @@ exports.getAllBookings = async (req, res) => {
   }
 };
 
-
-exports.createEmailBooking = async(req, res) => {
+exports.createEmailBooking = async (req, res) => {
   try {
     const {
       providerId,
@@ -67,7 +103,9 @@ exports.createEmailBooking = async(req, res) => {
     } = req.body;
 
     if (!providerId || !date || !time || !name || !mobile || !customerEmail) {
-      return res.status(400).json({ success: false, message: "Missing required fields" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
     }
 
     const Emailbooking = new EmailBooking({
@@ -90,5 +128,19 @@ exports.createEmailBooking = async(req, res) => {
   } catch (err) {
     console.error("EmailBooking error:", err);
     return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+exports.deleteBooking = async (req, res) => {
+  try {
+    const booking = await BookedConfirm.findByIdAndDelete(req.params.id);
+    if (!booking) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Booking not found" });
+    }
+    res.status(200).json({ success: true, message: "Booking deleted" });
+  } catch (err) {
+    console.error("Delete error:", err.message);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };

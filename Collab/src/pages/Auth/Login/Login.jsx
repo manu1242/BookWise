@@ -22,7 +22,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // ✅ Needed if backend sets cookies or sessions
+          
           body: JSON.stringify(credentials),
           referrerPolicy: "no-referrer-when-downgrade",
         }

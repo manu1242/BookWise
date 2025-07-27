@@ -77,11 +77,11 @@ exports.createBooking = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-// GET /api/admin/me
+
 exports.getAdminProfile = async (req, res) => {
   try {
     const userId = req.user.id; // from token
-    const user = await User.findById(userId).select("-password"); // hide password
+    const user = await User.findById(userId).select("-password"); 
 
     if (!user || user.role !== "admin") {
       return res.status(403).json({ message: "Access denied" });

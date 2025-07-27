@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const adminController = require("../controllers/AdminController");
+const { rateProvider } = require("../controllers/ratingController");
 
 
 const {
@@ -13,6 +14,10 @@ const {
   getBookingsByEmail,
   getAllBookings,
 } = require("../controllers/bookingController");
+
+
+router.post("/rate", rateProvider);
+
 
 router.get("/dashboard", adminController.getDashboardData);
 router.post("/create", adminController.createBooking);

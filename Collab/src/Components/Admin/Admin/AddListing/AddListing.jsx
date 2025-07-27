@@ -92,6 +92,12 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
       });
     } catch (err) {
       console.error("Error submitting booking:", err);
+      console.error(
+        "Axios Error Details:",
+        err.message,
+        err.response?.data,
+        err.response?.status
+      );
       alert("Error submitting booking");
     }
   };

@@ -11,7 +11,8 @@ exports.getAllCategories = async (req, res) => {
 
 exports.addCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+   const name = req.body.name.trim().toLowerCase();
+
 
     const existing = await Category.findOne({ name });
     if (existing) {

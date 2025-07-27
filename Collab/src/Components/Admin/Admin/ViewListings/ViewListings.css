@@ -16,28 +16,30 @@
   margin-bottom: 2rem;
 }
 
-.search-bar {
+.search-Bar {
+  margin-right: 50px;
   position: relative;
   max-width: 300px;
 }
 
-.search-bar svg {
+.search-Bar svg {
   position: absolute;
-  left: 0.75rem;
+  margin-left: 15px;
   top: 50%;
   transform: translateY(-50%);
   color: #6b7280;
+  pointer-events: none; 
 }
 
-.search-bar input {
+.search-Bar .Text {
   width: 100%;
-  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+   
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   font-size: 0.875rem;
 }
 
-.dark .search-bar input {
+.dark .search-Bar .Text {
   background-color: #374151;
   border-color: #4b5563;
   color: #e2e8f0;
@@ -174,15 +176,15 @@
     gap: 1rem;
     align-items: stretch;
   }
-  
+
   .search-bar {
     max-width: 100%;
   }
-  
+
   .listings-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .view-listings h1 {
     font-size: 1.5rem;
   }

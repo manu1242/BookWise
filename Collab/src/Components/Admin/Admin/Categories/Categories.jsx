@@ -14,7 +14,7 @@ const Categories = ({ listings }) => {
         `${import.meta.env.VITE_API_URL}/api/categories`
       );
       if (res.data.success) {
-        setCategories(res.data.categories); // ← Keep full category object
+        setCategories(res.data.categories);
       }
     } catch (err) {
       console.error("Failed to load categories:", err);
@@ -52,7 +52,7 @@ const Categories = ({ listings }) => {
         await axios.delete(
           `${import.meta.env.VITE_API_URL}/api/categories/${categoryId}`
         );
-        fetchCategories(); // reload after deletion
+        fetchCategories();
       } catch (error) {
         console.error("Error deleting category", error);
       }
@@ -77,9 +77,15 @@ const Categories = ({ listings }) => {
           <div key={category._id} className="category-card">
             <h3>{category.name}</h3>
             <p>
-              {listings.filter((l) => l.category === category.name).length}{" "}
+              {
+                listings.filter(
+                  (l) =>
+                    l.category?.toLowerCase() === category.name?.toLowerCase()
+                ).length
+              }{" "}
               listings
             </p>
+
             <button
               onClick={() => handleDeleteCategory(category._id)}
               className="delete-btn"

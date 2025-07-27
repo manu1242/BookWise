@@ -5,20 +5,18 @@
   font-family: sans-serif;
   background-color: transparent;
 }
-/* .location:hover{
-  color: #ffffff;
-} */
 
 .booking-title {
   font-size: 2.5rem;
   text-align: center;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: var(--text);
 }
 
 .booking-subtitle {
   text-align: center;
-  color: #555;
+  color: var(--muted);
   margin-bottom: 2rem;
 }
 
@@ -33,111 +31,114 @@
 .category-btn {
   padding: 0.75rem 1.5rem;
   border: 1px solid #ccc;
-  background: white;
+  background: var(--white);
   cursor: pointer;
   border-radius: 999px;
   font-weight: 600;
 }
 
 .category-btn.active {
-  background: #4f46e5;
-  color: white;
+  background: var(--primary);
+  color: var(--white);
 }
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   justify-items: center;
-}
-
-@media (max-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
+  width: 100%;
 }
 
 .card {
-  position: relative;
-  background: white;
+  background-color: var(--white);
   border-radius: 1rem;
   overflow: hidden;
   width: 100%;
-  max-width: 420px;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  max-width: 400px;
+  text-align: center;
+  color: var(--text);
+  padding-bottom: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
 .card:hover {
-    
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
 }
 
-.card-image-wrapper {
-  position: relative;
+.card-img {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.card-image {
-  width: 100%;
-  height: 100%;
+  height: 200px;
   object-fit: cover;
-  transition: filter 0.4s ease;
 }
 
-.card-name-overlay {
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white !important;
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-  z-index: 4; 
-  text-align: center;
-  pointer-events: none;
-}
-
-
-
-
-.card-content {
- 
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
+.card-body {
   padding: 1rem;
-  height: 100%;
-  width: 100%;
-  background: rgba(68, 68, 68, 0.47);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.card-subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.stars-rating {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-   opacity: 1;
-  visibility: visible;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
-
- .card-image {
-  filter: brightness(0.9) contrast(1.1);
+.stars {
+  color: #facc15;
+  font-size: 1.1rem;
 }
+
+.rating-value {
+  color: rgb(255, 109, 5);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.price-book {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  margin-top: 1rem;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--text);
+}
+
+.book-btn {
+  background-color: var(--primary);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.book-btn:hover {
+  background-color: #0052cc;
+}
+
 .filter-dropdown {
   margin: 1rem 0;
   display: flex;
@@ -150,101 +151,84 @@
 .filter-dropdown label {
   font-size: 1rem;
   font-weight: 500;
-  color: #333;
+  color: var(--text);
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Style the input field */
+.search-bar input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem; /* left padding leaves space for icon */
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+}
+
+/* Position the search icon inside the input */
+.search-bar svg {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  pointer-events: none;
+}
+
+/* Responsive: stack or shrink properly on smaller screens */
+@media (max-width: 480px) {
+  .search-bar {
+    max-width: 100%;
+    margin-right: 0;
+  }
+
+  .search-bar input {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+  }
+
+  .search-bar svg {
+    left: 0.6rem;
+  }
 }
 
 .filter-dropdown select {
   padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: var(--white);
   font-size: 1rem;
-  color: #333;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--text);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   cursor: pointer;
 }
 
 .filter-dropdown select:hover,
 .filter-dropdown select:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  border-color: var(--primary);
+  box-shadow: 0 0 5px rgba(0, 102, 255, 0.3);
   outline: none;
 }
 
-
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.badge {
-  background-color: #eef2ff;
-  color: #4f46e5;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0.5rem;
-  font-size: 0.75rem;
-}
-
-.rating {
-  font-weight: bold;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.location,
-.availability,
-.contact,
-.desc,
-.rating {
-  font-size: 0.9rem;
-  color: #d7d4d4;
-  margin-bottom: 0.25rem;
-}
-
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-}
-
-.price {
-  font-weight: bold;
-  color: rgb(240, 240, 255);
-  
-}
-
-.book-now {
-  background: #9f9aff;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
-}
-
-.card:hover .book-now {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  background: #6a669e;
-}
-
-
 .no-results {
   text-align: center;
-  color: #999;
+  color: var(--muted);
   margin-top: 2rem;
 }

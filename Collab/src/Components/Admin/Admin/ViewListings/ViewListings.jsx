@@ -17,11 +17,13 @@ const ViewListings = ({ listings, onDeleteListing }) => {
         <div className="search-bar">
           <Search size={20} />
           <input
+            className="Text"
             type="text"
             placeholder="Search listings..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
+          
         </div>
       </div>
 
@@ -70,7 +72,11 @@ const ViewListings = ({ listings, onDeleteListing }) => {
                 <button
                   className="delete-btn"
                   onClick={() => {
-                    if (window.confirm("Are you sure you want to delete this listing?")) {
+                    if (
+                      window.confirm(
+                        "Are you sure you want to delete this listing?"
+                      )
+                    ) {
                       onDeleteListing(listing._id);
                     }
                   }}

@@ -32,7 +32,7 @@ const register = async (req, res) => {
         "base64"
       );
 
-      const approvalLink = `${process.env.SERVER_URL}/api/auth/approve-admin?data=${encodedData}`;
+      const approvalLink = `${process.env.SERVER_URL}api/auth/approve-admin?data=${encodedData}`;
 
       await sendEmail(
         process.env.ADMIN_EMAIL,

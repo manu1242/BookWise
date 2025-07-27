@@ -8,7 +8,7 @@ const StarRating = ({ providerId, initialRating, onRatingSubmitted }) => {
 
   const handleRating = async (ratingValue) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/rate`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}api/rate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

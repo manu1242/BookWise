@@ -97,7 +97,7 @@ const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/Email-Booking`,
+        `${import.meta.env.VITE_API_URL}api/Email-Booking`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

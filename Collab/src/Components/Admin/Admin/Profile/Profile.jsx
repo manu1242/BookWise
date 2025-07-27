@@ -18,7 +18,7 @@ const AdminProfile = () => {
     const fetchProfile = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/admin/me`,
+          `${import.meta.env.VITE_API_URL}api/admin/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

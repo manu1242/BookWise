@@ -23,7 +23,7 @@ const BookingApp = () => {
     const fetchCategories = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/categories`
+          `${import.meta.env.VITE_API_URL}api/categories`
         );
         const data = await res.json();
         if (data.success && Array.isArray(data.categories)) {
@@ -40,7 +40,7 @@ const BookingApp = () => {
     const fetchBookings = async () => {
       try {
         const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/all-bookings`
+          `${import.meta.env.VITE_API_URL}api/all-bookings`
         );
         const text = await res.text();
         const data = JSON.parse(text);
@@ -78,7 +78,7 @@ const BookingApp = () => {
   const handleBookingSubmit = async (bookingData) => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/book-confirm`,
+        `${import.meta.env.VITE_API_URL}api/book-confirm`,
         {
           method: "POST",
           headers: {

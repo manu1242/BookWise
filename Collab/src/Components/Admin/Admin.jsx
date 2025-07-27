@@ -29,7 +29,7 @@ const Admin = () => {
   const fetchDashboardData = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/bookings/dashboard`
+        `${import.meta.env.VITE_API_URL}api/bookings/dashboard`
       );
       console.log("Response from dashboard:", res.data);
 
@@ -50,7 +50,7 @@ const Admin = () => {
   const handleAddListing = async (newListing) => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/bookings/create`,
+        `${import.meta.env.VITE_API_URL}api/bookings/create`,
         newListing
       );
 
@@ -62,7 +62,7 @@ const Admin = () => {
 
   const handleDeleteListing = async (id) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/bookings/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}api/bookings/${id}`);
       setListings(listings.filter((listing) => listing._id !== id));
     } catch (error) {
       console.error("Error deleting listing:", error);

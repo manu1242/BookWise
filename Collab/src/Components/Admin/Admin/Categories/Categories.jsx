@@ -11,7 +11,7 @@ const Categories = ({ listings }) => {
   const fetchCategories = async () => {
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/categories`
+        `${import.meta.env.VITE_API_URL}api/categories`
       );
       if (res.data.success) {
         setCategories(res.data.categories);
@@ -29,7 +29,7 @@ const Categories = ({ listings }) => {
     if (newCategory.trim()) {
       try {
         const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/categories/add`,
+          `${import.meta.env.VITE_API_URL}api/categories/add`,
           {
             name: newCategory.trim(),
           }
@@ -50,7 +50,7 @@ const Categories = ({ listings }) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
       try {
         await axios.delete(
-          `${import.meta.env.VITE_API_URL}/api/categories/${categoryId}`
+          `${import.meta.env.VITE_API_URL}api/categories/${categoryId}`
         );
         fetchCategories();
       } catch (error) {

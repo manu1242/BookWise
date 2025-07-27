@@ -10,7 +10,7 @@ const Dashboard = ({ payments = [] }) => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/api/bookings/dashboard`)
+      .get(`${import.meta.env.VITE_API_URL}api/bookings/dashboard`)
       .then((res) => {
         setListings(res.data.AllBookings || []);
         setUsers(res.data.AllUsers || []);

@@ -22,7 +22,7 @@ const Dealer = ({ onAddListing, onAddCategory }) => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/categories`
+          `${import.meta.env.VITE_API_URL}api/categories`
         );
         if (res.data.success) {
           setAvailableCategories(res.data.categories);
@@ -40,7 +40,7 @@ const Dealer = ({ onAddListing, onAddCategory }) => {
     if (newCategory) {
       try {
         const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/categories`,
+          `${import.meta.env.VITE_API_URL}api/categories`,
           {
             name: newCategory,
           }
@@ -70,7 +70,7 @@ const Dealer = ({ onAddListing, onAddCategory }) => {
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/admin/create`,
+        `${import.meta.env.VITE_API_URL}api/admin/create`,
         formData,
         {
           headers: {

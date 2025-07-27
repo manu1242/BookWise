@@ -19,7 +19,8 @@ const Profile = () => {
     const fetchBookings = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/api/bookings?email=${storedEmail}`
+          `${import.meta.env.VITE_API_URL}/api/bookings?email=${storedEmail}`,
+          
         );
         const data = await res.json();
 
@@ -86,8 +87,6 @@ const Profile = () => {
                     <div className="icon-box">👤</div>
                     <div className="provider-name">{b.providerName}</div>
                   </div>
-
-                  
 
                   <span className="status">Confirmed</span>
                 </div>

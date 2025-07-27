@@ -5,7 +5,7 @@ import avatar from "../../assets/Avatar.svg";
 import {  useNavigate } from "react-router-dom";
 import Contact from "../contact/Contact";
 import Footer from '../../pages/Footer/Footer'
-import "./Landingpage.css";
+import "./LandingPage.css";
 
 
 const Landingpage = () => {

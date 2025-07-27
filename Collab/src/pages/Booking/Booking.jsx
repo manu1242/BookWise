@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 import { sendBookingConfirmationEmail } from "../../utils/email";
 import ProfileIcon from "../../Components/profile/ProfileIcon";
 import StarRating from "./Rating/StarRating";
-import "./booking.css";
+import "./Booking.css";
 
 const BookingApp = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");

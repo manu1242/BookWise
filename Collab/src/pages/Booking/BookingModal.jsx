@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import emailjs from "emailjs-com";
-import "./bookingModal.css";
+import "./BookingModal.css";
 
 const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
   const [name, setName] = useState("");

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { User, Edit } from "lucide-react";
+import { User, Edit, LogOut } from "lucide-react"; // Added LogOut icon
 import "./Profile.css";
 
 const AdminProfile = () => {
-  const[admin, setAdmin] = useState(null);
+  const [admin, setAdmin] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -17,14 +17,11 @@ const AdminProfile = () => {
 
     const fetchProfile = async () => {
       try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}api/admin/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await fetch(`${import.meta.env.VITE_API_URL}api/admin/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         const data = await res.json();
         if (res.ok) {
@@ -39,6 +36,13 @@ const AdminProfile = () => {
 
     fetchProfile();
   }, []);
+
+  // 🔐 Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    window.location.href = "/";
+  };
 
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   if (!admin) return <p>Loading admin profile...</p>;
@@ -56,6 +60,7 @@ const AdminProfile = () => {
             <p>{admin.role}</p>
           </div>
         </div>
+
         <div className="profile-details">
           <div className="detail-item">
             <label>Email</label>
@@ -70,10 +75,17 @@ const AdminProfile = () => {
             <span>{admin.role}</span>
           </div>
         </div>
-        <button className="edit-profile-btn">
-          <Edit size={16} />
-          Edit Profile
-        </button>
+
+        <div className="profile-actions">
+          <button className="edit-profile-btn">
+            <Edit size={16} />
+            Edit Profile
+          </button>
+          <button className="logout-btn" onClick={handleLogout}>
+            <LogOut size={16} />
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -8,17 +8,19 @@ body {
 .landingpage {
   width: 100%;
   min-height: 100vh;
-   background: linear-gradient(135deg, #d7b8ff 0%, #fcfaff 50%, #fcfbff 100%);
+  background: var(--landing-gradient);
   color: var(--white);
+  position: relative;
 }
-.landingpage::before{
+
+.landingpage::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="var(--grid-line)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
   pointer-events: none;
 }
 
@@ -37,8 +39,8 @@ body {
 }
 
 .navbar-btn {
-  background-color:#6c63ff;
-  color: #fff;
+  background-color: var(--secondary);
+  color: var(--white);
   border: none;
   border-radius: 24px;
   margin: 1rem;
@@ -52,6 +54,10 @@ body {
   opacity: 0;
 }
 
+.navbar-btn:hover {
+  background: var(--hover);
+}
+
 @keyframes fadeInRight {
   0% {
     opacity: 0;
@@ -63,9 +69,6 @@ body {
   }
 }
 
-.navbar-btn:hover {
-  background: #a6a2e5;
-}
 .hero {
   display: flex;
   flex-wrap: wrap;
@@ -85,10 +88,9 @@ body {
   opacity: 0;
 }
 
-
 .hero-badge {
   background: var(--gradient);
-  color: #fff;
+  color: var(--white);
   padding: 0.4rem 1rem;
   border-radius: 1rem;
   font-size: 0.8rem;
@@ -101,7 +103,7 @@ body {
 }
 
 .hero-content h1 {
-  color: #ffffff;
+  color: var(--white);
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 800;
   margin-bottom: 1rem;
@@ -110,7 +112,7 @@ body {
 }
 
 .highlight {
-  background: linear-gradient(135deg, #b295d8 0%, #7a73ff 100%);
+  background: var(--gradient);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -148,9 +150,9 @@ body {
     transform: translateY(0);
   }
 }
-.dealer-btn{
-  color: #60a5fa;
-  
+
+.dealer-btn {
+  color: var(--info);
 }
 
 .phone-mockup {
@@ -158,7 +160,7 @@ body {
   width: clamp(220px, 30vw, 320px);
   height: clamp(300px, 40vw, 420px);
   border-radius: 36px;
-  box-shadow: 0 10px 40px rgba(162, 89, 255, 0.18);
+  box-shadow: 0 10px 40px var(--shadow-strong);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -182,10 +184,10 @@ body {
   margin-right: 8px;
 }
 .dot.green {
-  background: #4ade80;
+  background: var(--success);
 }
 .dot.blue {
-  background: #60a5fa;
+  background: var(--info);
 }
 
 .amount {
@@ -202,7 +204,7 @@ body {
 .trusted {
   text-align: center;
   margin: 4rem 0 2rem;
-  color: #888;
+  color: var(--gray);
   font-size: 1.1rem;
 }
 
@@ -216,13 +218,13 @@ body {
 
 .trusted-logos span {
   font-weight: 600;
-  color: #22223b;
+  color: var(--text);
   opacity: 0.7;
 }
 
 .workflow {
   padding: 4rem 8vw;
-  background: #fff;
+  background: var(--white);
 }
 
 .workflow-badge {
@@ -230,7 +232,7 @@ body {
   justify-content: center;
   align-items: center;
   width: max-content;
-  background: #f3e8ff;
+  background: var(--badge-bg);
   color: var(--primary);
   padding: 0.4rem 1rem;
   border-radius: 16px;
@@ -245,7 +247,9 @@ body {
   font-weight: 800;
   margin-bottom: 2.5rem;
 }
-
+.platform{
+  color: var( --text);
+}
 .highlight2 {
   color: var(--primary);
 }
@@ -258,9 +262,9 @@ body {
 }
 
 .workflow-card {
-  background: #eaeafb;
+  background: var(--light-purple);
   border-radius: 24px;
-  box-shadow: 0 4px 24px rgba(162, 89, 255, 0.08);
+  box-shadow: 0 4px 24px var(--shadow-light);
   padding: 2rem;
   flex: 1 1 320px;
   max-width: 400px;
@@ -275,9 +279,9 @@ body {
 }
 
 .total-users-card {
-  background: #fff;
+  background: var(--white);
   border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(162, 89, 255, 0.1);
+  box-shadow: 0 2px 12px var(--shadow-card);
   padding: 1rem;
 }
 
@@ -297,9 +301,9 @@ body {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  border: 2px solid #fff;
+  border: 2px solid var(--white);
   margin-left: -8px;
-  background: #e0e7ff;
+  background: var(--avatar-bg);
 }
 
 .users-count {
@@ -311,7 +315,7 @@ body {
 
 .users-label {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--gray);
   font-weight: 400;
 }
 
@@ -323,12 +327,12 @@ body {
 
 .progress-label {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--gray);
   width: 90px;
 }
 
 .progress-bar-bg {
-  background: #ece9fc;
+  background: var(--card-border);
   border-radius: 8px;
   width: 80px;
   height: 8px;
@@ -343,7 +347,7 @@ body {
 }
 
 .progress-bar.purple {
-  background: #6c63ff;
+  background: var(--secondary);
 }
 
 .progress-value {
@@ -354,9 +358,9 @@ body {
 }
 
 .accounts-diagram {
-  background: #fff;
+  background: var(--white);
   border-radius: 18px;
-  box-shadow: 0 2px 12px rgba(162, 89, 255, 0.1);
+  box-shadow: 0 2px 12px var(--shadow-card);
   height: 110px;
   position: relative;
   display: flex;
@@ -370,10 +374,11 @@ body {
   width: 31px;
   height: 31px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--white);
 }
+
 .card-icons {
-  background-color: #bdb7d5;
+  background-color: var(--card-icon-bg);
 }
 
 .diagram-center {
@@ -386,7 +391,7 @@ body {
 .center-icon {
   font-size: 1rem;
   background: var(--primary);
-  color: #fff;
+  color: var(--white);
   border-radius: 50%;
   width: 38px;
   height: 38px;
@@ -399,21 +404,25 @@ body {
   position: absolute;
   width: 16px;
   height: 16px;
-  background: #ece9fc;
+  background: var(--card-border);
   border-radius: 50%;
 }
+
 .node1 {
   left: 10%;
   top: 20%;
 }
+
 .node2 {
   right: 10%;
   top: 20%;
 }
+
 .node3 {
   left: 10%;
   bottom: 20%;
 }
+
 .node4 {
   right: 10%;
   bottom: 20%;
@@ -434,7 +443,7 @@ body {
 
 .accounts-label {
   font-size: 0.9rem;
-  color: #888888;
+  color: var(--gray);
   font-weight: 400;
 }
 
@@ -443,9 +452,8 @@ body {
 }
 
 .get-started-mobile {
-
   background: var(--gradient);
-  color: #fff;
+  color: var(--white);
   border: none;
   border-radius: 24px;
   padding: 0.7rem 1.8rem;
@@ -468,7 +476,7 @@ body {
 }
 
 .get-started-mobile:hover {
-  background: #6c63ff;
+  background: var(--secondary);
 }
 
 @media (max-width: 900px) {
@@ -477,16 +485,20 @@ body {
     justify-content: center;
     margin-top: 2rem;
   }
+
   .navbar-btn {
     display: none;
   }
+
   .highlight {
     font-size: 2.5rem;
   }
+
   .hero {
     flex-direction: column;
     padding: 2.5rem 4vw 0;
   }
+
   .workflow-cards {
     flex-direction: column;
     gap: 1.1rem;
@@ -500,23 +512,28 @@ body {
     gap: 1rem;
     padding: 1rem 4vw 0;
   }
+
   .navbar-logo {
     font-size: 2rem;
     text-align: center;
     width: 100%;
     margin-top: 0;
   }
+
   .navbar-btn {
     width: 100%;
     max-width: 180px;
     font-size: 0.8rem;
   }
+
   .trusted-logos {
     gap: 1rem;
   }
+
   .highlight {
     font-size: 2rem;
   }
+
   .tagline {
     font-size: 0.95rem;
     padding: 0 1rem;
@@ -524,13 +541,16 @@ body {
     text-align: center;
     margin-right: 29px;
   }
+
   .phone-mockup {
     width: 220px;
     height: 300px;
   }
+
   .workflow {
     padding: 3rem 4vw;
   }
+
   .workflow-card {
     width: 100%;
     padding: 1.5rem;

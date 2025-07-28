@@ -5,10 +5,25 @@
 :root {
   --primary: #0066FF;
   --secondary: #6c63ff;
+  --hover: #a6a2e5;
   --bg: #d9d9eb;
   --text: #22223b;
   --muted: #bdbdbd;
   --white: #ffffff;
+  --gray: #888888;
+  --light-purple: #eaeafb;
+  --card-border: #ece9fc;
+  --avatar-bg: #e0e7ff;
+  --badge-bg: #f3e8ff;
+  --gradient: linear-gradient(135deg, #b295d8 0%, #7a73ff 100%);
+  --landing-gradient: linear-gradient(135deg, #d7b8ff 0%, #fcfaff 50%, #fcfbff 100%);
+  --success: #4ade80;
+  --info: #60a5fa;
+  --card-icon-bg: #bdb7d5;
+  --shadow-strong: rgba(162, 89, 255, 0.18);
+  --shadow-light: rgba(162, 89, 255, 0.08);
+  --shadow-card: rgba(162, 89, 255, 0.1);
+  --grid-line: rgba(255, 255, 255, 0.09);
 }
 
 

@@ -87,7 +87,7 @@ const Landingpage = () => {
       {/* Workflow Section */}
       <section className="workflow">
         <span className="workflow-badge">Our workflow</span>
-        <h2>
+        <h2 className="platform">
           How our platform makes your workflow{" "}
           <span className="highlight2">easier</span>
         </h2>

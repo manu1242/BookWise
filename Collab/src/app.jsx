@@ -12,7 +12,7 @@ import BookingConfirmation from "./pages/Booking/BookingConfrim";
 import Admin from "./Components/Admin/Admin";
 import Dealer from "./Components/Dealer/Dealer";
 import { ToastContainer } from "react-toastify";
-import ProtectedRoute from "./Components/ProtectedRoute";
+import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 
 function App() {
   const [loading, setLoading] = useState(true);

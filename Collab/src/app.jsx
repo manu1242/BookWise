@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Landing from "./pages/LandingPage/Landing";
 import Register from "./pages/Auth/Register/Register";
 import Login from "./pages/Auth/Login/Login";
@@ -16,12 +16,7 @@ import ProtectedRoute from "./Components/Routes/ProtectedRoute";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState(localStorage.getItem("role"));
   const location = useLocation();
-
-  useEffect(() => {
-    setRole(localStorage.getItem("role"));
-  }, [location]);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 2700);
@@ -38,6 +33,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
+
         <Route
           path="/admin-dashboard"
           element={
@@ -49,12 +45,22 @@ function App() {
 
         <Route
           path="/home"
-          element={<ProtectedRoute element={Home} allowedRoles={["user"]} />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Home />
+            </ProtectedRoute>
+          }
         />
+
         <Route
           path="/profile"
-          element={<ProtectedRoute element={Profile} allowedRoles={["user"]} />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Profile />
+            </ProtectedRoute>
+          }
         />
+
         <Route
           path="/booking"
           element={
@@ -67,16 +73,21 @@ function App() {
         <Route
           path="/bookingConfirm"
           element={
-            <ProtectedRoute
-              element={BookingConfirmation}
-              allowedRoles={["user"]}
-            />
+            <ProtectedRoute allowedRoles={["user"]}>
+              <BookingConfirmation />
+            </ProtectedRoute>
           }
         />
+
         <Route
           path="/dealers"
-          element={<ProtectedRoute element={Dealer} allowedRoles={["user"]} />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Dealer />
+            </ProtectedRoute>
+          }
         />
+
         <Route
           path="/unauthorized"
           element={

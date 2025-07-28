@@ -13,6 +13,7 @@ const Dashboard = ({ payments = [] }) => {
     axios
       .get(`${import.meta.env.VITE_API_URL}api/bookings/dashboard`)
       .then((res) => {
+          console.log("Dashboard API response:", res.data); 
         setListings(res.data.AllBookings || []);
         setUsers(res.data.AllUsers || []);
         setRevenue(res.data.totalRevenue || 0);

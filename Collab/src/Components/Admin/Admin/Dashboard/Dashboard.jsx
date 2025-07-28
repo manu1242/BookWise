@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Package, Users, DollarSign, Star, MapPin } from "lucide-react";
-import StarRating from  "./pages/Booking/Rating/StarRating";
+import StarRating from "./pages/Booking/Rating/StarRating";
 import "./Dashboard.css";
 
 const Dashboard = ({ payments = [] }) => {
@@ -95,9 +95,8 @@ const Dashboard = ({ payments = [] }) => {
                   <div className="rating">
                     <StarRating
                       providerId={booking._id}
-                      initialRating={booking.rating || 5.0}
+                      initialRating={parseFloat(booking.rating) || 5.0}
                       onRatingSubmitted={(id, newAvg) => {
-                        // Optionally update listing state if you want live updates
                         setListings((prevListings) =>
                           prevListings.map((b) =>
                             b._id === id ? { ...b, rating: newAvg } : b

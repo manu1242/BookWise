@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Landing from "./pages/LandingPage/Landing";
 import Register from "./pages/Auth/Register/Register";
 import Login from "./pages/Auth/Login/Login";
@@ -9,17 +9,16 @@ import Profile from "./Components/profile/profile";
 import Booking from "./pages/Booking/Booking";
 import Loader from "./Components/Loader/Loader";
 import BookingConfirmation from "./pages/Booking/BookingConfrim";
-import Admin from "./Components/Admin/Admin"
-import Dealer from './Components/Dealer/Dealer'
+import Admin from "./Components/Admin/Admin";
+import Dealer from "./Components/Dealer/Dealer";
 import { ToastContainer } from "react-toastify";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState(localStorage.getItem("role")); 
-
+  const [role, setRole] = useState(localStorage.getItem("role"));
   const location = useLocation();
 
- 
   useEffect(() => {
     setRole(localStorage.getItem("role"));
   }, [location]);
@@ -38,26 +37,36 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/dealers" element={<Dealer />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/bookingConfirm" element={<BookingConfirmation />} />
         <Route path="/contact" element={<Contact />} />
-
-        {}
         <Route
           path="/admin-dashboard"
+          element={<ProtectedRoute element={Admin} allowedRoles={["admin"]} />}
+        />
+        <Route
+          path="/home"
+          element={<ProtectedRoute element={Home} allowedRoles={["user"]} />}
+        />
+        <Route
+          path="/profile"
+          element={<ProtectedRoute element={Profile} allowedRoles={["user"]} />}
+        />
+        <Route
+          path="/booking"
+          element={<ProtectedRoute element={Booking} allowedRoles={["user"]} />}
+        />
+        <Route
+          path="/bookingConfirm"
           element={
-            role === "admin" ? (
-              <Admin />
-            ) : (
-              <Navigate to="/unauthorized" replace />
-            )
+            <ProtectedRoute
+              element={BookingConfirmation}
+              allowedRoles={["user"]}
+            />
           }
         />
-
-        {}
+        <Route
+          path="/dealers"
+          element={<ProtectedRoute element={Dealer} allowedRoles={["user"]} />}
+        />
         <Route
           path="/unauthorized"
           element={
@@ -71,4 +80,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

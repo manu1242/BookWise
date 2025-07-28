@@ -111,7 +111,6 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
       setPreview(URL.createObjectURL(file));
     }
   };
-  
 
   return (
     <div className="add-listing">
@@ -132,7 +131,9 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
         <div className="form-group">
           <label>Phone Number</label>
           <input
-            type="tel"
+            type="text"
+            pattern="^[0-9\s\-+]{10,15}$"
+            title="Enter a valid phone number (digits, spaces, dashes allowed)"
             value={newListing.phone}
             onChange={(e) =>
               setNewListing({ ...newListing, phone: e.target.value })

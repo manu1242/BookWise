@@ -9,8 +9,9 @@ const AdminProfile = () => {
   useEffect(() => {
     const role = localStorage.getItem("role");
     const token = localStorage.getItem("token");
+  
 
-    if (role !== "admin" || !token) {
+    if (role !== "admin" || !token){
       window.location.href = "/login";
       return;
     }

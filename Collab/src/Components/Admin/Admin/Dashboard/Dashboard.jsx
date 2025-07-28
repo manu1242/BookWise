@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Package, Users, DollarSign, Star, MapPin } from "lucide-react";
-import StarRating from "./pages/Booking/Rating/StarRating";
+import StarRating from "@/pages/Booking/Rating/StarRating";
 import "./Dashboard.css";
 
 const Dashboard = ({ payments = [] }) => {

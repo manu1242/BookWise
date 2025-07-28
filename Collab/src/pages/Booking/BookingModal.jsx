@@ -89,7 +89,7 @@ const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
       providerId: provider._id,
       images: Array.isArray(provider.images)
         ? provider.images
-        : [provider.images],
+        : [provider.images], // ✅ always array
       rating: provider.rating || 0,
       phone: provider.phone || "",
       email: provider.email || "",
@@ -145,12 +145,7 @@ const BookingModal = ({ isOpen, onClose, provider, onSubmit }) => {
             <strong>Price:</strong> ₹{provider.price}/{provider.unit}
           </p>
           <p>
-            <strong>Rating:</strong>{" "}
-            <Rating
-              providerId={provider._id}
-              initialRating={provider.rating || 5.0}
-              readonly
-            />
+            <strong>Rating:</strong> ⭐ {provider.rating}
           </p>
         </div>
 

@@ -57,24 +57,25 @@ const BookingApp = () => {
     fetchBookings();
   }, []);
 
- useEffect(() => {
+useEffect(() => {
   const filtered = serviceProviders.filter((provider) => {
     const matchesCategory =
       selectedCategory === "all" ||
       (provider.category &&
         provider.category.toLowerCase() === selectedCategory);
 
-    const matchesSearch =
-      searchQuery === "" ||
-      provider.providerName?.toLowerCase().includes(searchQuery) ||
-      provider.location?.toLowerCase().includes(searchQuery) ||
-      provider.category?.toLowerCase().includes(searchQuery);
+    const matchesSearch = [provider.providerName, provider.location, provider.category]
+      .some((field) => field?.toLowerCase().includes(searchQuery));
 
     return matchesCategory && matchesSearch;
   });
 
+  console.log("Search Query:", searchQuery);
+  console.log("Filtered Providers:", filtered);
+
   setFilteredProviders(filtered);
 }, [selectedCategory, searchQuery, serviceProviders]);
+
 
 
   const handleBookNow = (provider) => {

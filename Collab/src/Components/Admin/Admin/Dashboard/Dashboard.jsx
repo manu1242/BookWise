@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Package, Users, DollarSign, Star, MapPin } from "lucide-react";
+import StarRating from  "./pages/Booking/Rating/StarRating";
 import "./Dashboard.css";
 
 const Dashboard = ({ payments = [] }) => {
@@ -20,9 +21,8 @@ const Dashboard = ({ payments = [] }) => {
         console.error("Error fetching dashboard data:", err);
       });
   }, []);
- 
 
- return (
+  return (
     <div className="dashboard">
       <div className="dashboard-header">
         <h1>Dashboard Overview</h1>
@@ -68,7 +68,7 @@ const Dashboard = ({ payments = [] }) => {
                     booking.images && booking.images.length > 0
                       ? booking.images[0]
                       : "/placeholder.jpg"
-                  } 
+                  }
                   alt={booking.providerName}
                   className="booking-image"
                 />
@@ -93,9 +93,18 @@ const Dashboard = ({ payments = [] }) => {
                   </p>
 
                   <div className="rating">
-                    <Star size={16} />
-                    <span>—</span>{" "}
-                    {/* Rating placeholder, since it's not in your schema */}
+                    <StarRating
+                      providerId={booking._id}
+                      initialRating={booking.rating || 5.0}
+                      onRatingSubmitted={(id, newAvg) => {
+                        // Optionally update listing state if you want live updates
+                        setListings((prevListings) =>
+                          prevListings.map((b) =>
+                            b._id === id ? { ...b, rating: newAvg } : b
+                          )
+                        );
+                      }}
+                    />
                   </div>
                 </div>
               </div>

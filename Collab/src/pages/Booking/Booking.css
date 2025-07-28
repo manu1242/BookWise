@@ -145,7 +145,7 @@
 }
 
 .book-btn:hover {
-  transform: scale(1.05);
+  transform: scale(2 );
   background: linear-gradient(to right, #004ec2, #5a52d1); /* darker hover */
 }
 

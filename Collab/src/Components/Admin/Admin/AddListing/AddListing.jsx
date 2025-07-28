@@ -234,7 +234,7 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
             </label>
           </div>
 
-          {/* ✅ Image Preview Section */}
+          {}
           {preview && (
             <div className="image-preview">
               <img

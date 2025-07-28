@@ -40,8 +40,13 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route
           path="/admin-dashboard"
-          element={<ProtectedRoute element={Admin} allowedRoles={["admin"]} />}
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <Admin />
+            </ProtectedRoute>
+          }
         />
+
         <Route
           path="/home"
           element={<ProtectedRoute element={Home} allowedRoles={["user"]} />}
@@ -52,7 +57,11 @@ function App() {
         />
         <Route
           path="/booking"
-          element={<ProtectedRoute element={Booking} allowedRoles={["user"]} />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Booking />
+            </ProtectedRoute>
+          }
         />
 
         <Route

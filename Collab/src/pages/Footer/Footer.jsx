@@ -17,11 +17,11 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const navigationLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'Services', href: '#' },
-    { name: 'Bookings', href: '#' },
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/' },
+    { name: 'Bookings', href: '/booking ' },
     { name: 'About Us', href: '#' },
-    { name: 'Contact', href: '#' }
+    { name: 'Contact', href: '/contact' }
   ];
 
   const socialLinks = [
@@ -31,13 +31,7 @@ const Footer = () => {
     { name: 'LinkedIn', icon: Linkedin, href: '#' }
   ];
 
-  const services = [
-    'Home Cleaning',
-    'Plumbing',
-    'Electrical',
-    'Beauty & Spa',
-    'Tutoring'
-  ];
+ 
 
   return (
     <footer className="footer">

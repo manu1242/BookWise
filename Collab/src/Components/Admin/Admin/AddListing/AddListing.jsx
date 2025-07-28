@@ -90,6 +90,7 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
         description: "",
         image: null,
       });
+      setPreview(null);
     } catch (err) {
       console.error("Error submitting booking:", err);
       console.error(
@@ -110,6 +111,7 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
       setPreview(URL.createObjectURL(file));
     }
   };
+  
 
   return (
     <div className="add-listing">

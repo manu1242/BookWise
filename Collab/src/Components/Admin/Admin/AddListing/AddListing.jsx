@@ -241,8 +241,8 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
                 src={preview}
                 alt="Preview"
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: "200px",
+                  height: "200px",
                   objectFit: "cover",
                   borderRadius: "8px",
                   marginTop: "10px",

@@ -40,6 +40,7 @@ const AdminProfile = () => {
   // 🔐 Logout handler
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
     localStorage.removeItem("role");
     window.location.href = "/";
   };

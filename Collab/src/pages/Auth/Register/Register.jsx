@@ -14,11 +14,83 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!email || !password || !userName) {
+  //     setError("All fields are required");
+  //     return;
+  //   }
+
+  //   setError("");
+  //   setMessage("");
+  //   setLoading(true);
+
+  //   try {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_URL}api/auth/register`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           name: userName,
+  //           email,
+  //           password,
+  //           role: isAdmin ? "admin" : "user",
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (response.ok) {
+  //       if (isAdmin) {
+  //         setMessage("✅ Admin request sent. Please wait for email approval.");
+  //       } else {
+  //         alert("✅ Registration successful!");
+  //         navigate("/login");
+  //       }
+  //     } else {
+  //       setError(data.message || "Registration failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     setError("An error occurred during registration.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password || !userName) {
+    const emailRegex = /^[^\s@]+[0-9][^\s@]*@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/;
+    const usernameRegex = /^[A-Za-z0-9\s]+$/;
+
+    if (!userName || !email || !password) {
       setError("All fields are required");
+      return;
+    }
+
+    if (!usernameRegex.test(userName)) {
+      setError(
+        "Username can only include letters, numbers, and spaces (no symbols)"
+      );
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      setError("Email must include at least one number and be valid");
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      setError(
+        "Password must be 6-16 characters and include a letter, number, and special character"
+      );
       return;
     }
 

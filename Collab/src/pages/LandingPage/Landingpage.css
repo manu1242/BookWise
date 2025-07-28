@@ -37,7 +37,7 @@ body {
 }
 
 .navbar-btn {
-  background: var(--gradient);
+  background:#6c63ff;
   color: #fff;
   border: none;
   border-radius: 24px;
@@ -443,6 +443,7 @@ body {
 }
 
 .get-started-mobile {
+
   background: var(--gradient);
   color: #fff;
   border: none;

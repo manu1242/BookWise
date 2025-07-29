@@ -91,17 +91,37 @@ const handleGoogleSignIn = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    
-    console.log("Google User:", user);
 
-    // Optional: send to backend if needed
-    alert(`Welcome ${user.displayName}`);
-    navigate("/");
+    const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: user.displayName,
+        email: user.email,
+        role: isAdmin ? "admin" : "user",
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      if (isAdmin) {
+        setMessage("✅ Admin request sent. Please wait for email approval.");
+      } else {
+        alert(`✅ Welcome ${user.displayName}`);
+        navigate("/home");
+      }
+    } else {
+      setError(data.message || "Google Registration failed");
+    }
   } catch (error) {
     console.error("Google Sign-In Error:", error);
     setError("Google Sign-In failed");
   }
 };
+
 
   return (
     <div className="signup-container">

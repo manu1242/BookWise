@@ -127,9 +127,65 @@ const approveAdmin = async (req, res) => {
     res.status(500).send("Error approving admin.");
   }
 };
+const googleRegister = async (req, res) => {
+  try {
+    const { name, email, role = "user" } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ message: "Name and email are required" });
+    }
+
+    let user = await User.findOne({ email });
+
+    if (user) {
+      if (user.role === "pending-admin" && !user.isAdminApproved) {
+        return res.status(403).json({ message: "Admin access pending approval" });
+      }
+
+      return res.status(200).json({ message: "User already exists", user });
+    }
+
+    if (role === "admin") {
+      user = await User.create({
+        name,
+        email,
+        password: "", // not needed for Google
+        role: "pending-admin",
+        isAdminApproved: false,
+      });
+
+      const encodedData = Buffer.from(JSON.stringify({ email })).toString("base64");
+      const approvalLink = `${process.env.SERVER_URL}api/auth/approve-admin?data=${encodedData}`;
+
+      await sendEmail(
+        process.env.ADMIN_EMAIL,
+        "Admin Access Request (via Google)",
+        `<p>User <strong>${name}</strong> (${email}) requested admin access via Google.</p>
+         <p><a href="${approvalLink}">Click here to approve</a></p>`
+      );
+
+      return res.status(200).json({ message: "Admin access request sent. Await approval." });
+    }
+
+    user = await User.create({
+      name,
+      email,
+      password: "",
+      role: "user",
+      isAdminApproved: true,
+    });
+
+    res.status(201).json({ message: "User registered successfully", user });
+  } catch (error) {
+    console.error("Google Register Error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
 
 module.exports = {
   register,
   login,
   approveAdmin,
+  googleRegister,
 };

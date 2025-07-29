@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { auth, provider, signInWithPopup } from "../FireBase/Firebase";
 import logo from "../../../assets/LOGO.png";
 import "./Login.css";
 
@@ -22,7 +23,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          
+
           body: JSON.stringify(credentials),
           referrerPolicy: "no-referrer-when-downgrade",
         }
@@ -46,6 +47,42 @@ const Login = () => {
       }
     } catch (err) {
       setError("Something went wrong");
+    }
+  };
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}api/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email: user.email, password: "" }), // or a separate endpoint for google login
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed");
+      } else {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("email", user.email);
+
+        if (data.user.role === "admin") {
+          window.location.href = "/admin-dashboard";
+        } else {
+          navigate("/home");
+        }
+      }
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      setError("Google Login failed");
     }
   };
 
@@ -85,6 +122,16 @@ const Login = () => {
 
             <button className="login-btn" type="submit">
               Login
+            </button>
+            <button
+              className="oauth-btn google"
+              onClick={handleGoogleLogin}
+              disabled={loading}
+            >
+              <span className="oauth-content">
+                <FcGoogle className="oauth-icon" />
+                Continue with Google
+              </span>
             </button>
           </form>
 

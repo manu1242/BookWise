@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
 import { auth, provider, signInWithPopup } from "../FireBase/Firebase";
+import { toast } from "react-toastify";
 import "./Register.css";
 
 const Register = () => {
@@ -15,7 +16,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Manual Register
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -65,7 +65,8 @@ const Register = () => {
         if (isAdmin) {
           setMessage("✅ Admin request sent. Please wait for email approval.");
         } else {
-          alert("✅ Registration successful!");
+          
+          toast.success("✅ Registration successful!");
           navigate("/login");
         }
       } else {
@@ -79,7 +80,7 @@ const Register = () => {
     }
   };
 
-  // Google Register
+ 
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -91,7 +92,7 @@ const Register = () => {
         body: JSON.stringify({
           name: user.displayName,
           email: user.email,
-          role: isAdmin ? "admin" : "user", // ✅ Use admin checkbox
+          role: isAdmin ? "admin" : "user", 
         }),
       });
 
@@ -100,6 +101,7 @@ const Register = () => {
       if (!response.ok) {
         if (data.message === "Admin access pending approval") {
           setError("⛔ Admin access pending approval. Please wait.");
+          
         } else {
           setError(data.message || "Google sign-in failed");
         }
@@ -107,7 +109,8 @@ const Register = () => {
       }
 
       if (data.user) {
-        alert("✅ Google login success");
+        
+        toast.success("✅ Google login success")
         localStorage.setItem("token", "GOOGLE_USER");
         localStorage.setItem("role", data.user.role);
         localStorage.setItem("email", user.email);

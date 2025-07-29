@@ -37,11 +37,11 @@ const Login = () => {
         setError(data.message || "Login failed");
       } else {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.user.role); // Save role
+        localStorage.setItem("role", data.user.role); 
         localStorage.setItem("email", credentials.email);
 
         if (data.user.role === "admin") {
-          console.log(data.user.role);
+          
           window.location.href = "/admin-dashboard";
         } else {
           navigate("/home");
@@ -56,8 +56,8 @@ const Login = () => {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Optional: Let users choose role (admin/user)
-    const role = "user"; // or "admin" based on checkbox/UI
+    
+    const role = "user"; 
 
     const response = await fetch(
       `${import.meta.env.VITE_API_URL}api/auth/google-register`,

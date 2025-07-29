@@ -5,7 +5,7 @@ import "./ViewListings.css";
 const ViewListings = ({ listings, onDeleteListing }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter listings based on search input
+
   const filteredListings = listings.filter((listing) =>
     listing.providerName?.toLowerCase().includes(searchTerm.toLowerCase())
   );

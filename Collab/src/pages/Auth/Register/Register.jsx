@@ -14,12 +14,13 @@ const Register = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Manual Register
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+[0-9][^\s@]*@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/;
     const usernameRegex = /^[A-Za-z0-9\s]+$/;
 
     if (!userName || !email || !password) {
@@ -28,9 +29,7 @@ const Register = () => {
     }
 
     if (!usernameRegex.test(userName)) {
-      setError(
-        "Username can only include letters, numbers, and spaces (no symbols)"
-      );
+      setError("Username can only include letters, numbers, and spaces (no symbols)");
       return;
     }
 
@@ -40,9 +39,7 @@ const Register = () => {
     }
 
     if (!passwordRegex.test(password)) {
-      setError(
-        "Password must be 6-16 characters and include a letter, number, and special character"
-      );
+      setError("Password must be 6-16 characters and include a letter, number, and special character");
       return;
     }
 
@@ -51,21 +48,16 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}api/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: userName,
-            email,
-            password,
-            role: isAdmin ? "admin" : "user",
-          }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: userName,
+          email,
+          password,
+          role: isAdmin ? "admin" : "user",
+        }),
+      });
 
       const data = await response.json();
 
@@ -79,32 +71,29 @@ const Register = () => {
       } else {
         setError(data.message || "Registration failed");
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (err) {
+      console.error("Registration Error:", err);
       setError("An error occurred during registration.");
     } finally {
       setLoading(false);
     }
   };
+
+  // Google Register
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}api/auth/google-register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: user.displayName,
-            email: user.email,
-            role: isAdmin ? "admin" : "user"
-          }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: user.displayName,
+          email: user.email,
+          role: isAdmin ? "admin" : "user", // ✅ Use admin checkbox
+        }),
+      });
 
       const data = await response.json();
 
@@ -117,18 +106,22 @@ const Register = () => {
         return;
       }
 
-      alert("✅ Google login success");
-      localStorage.setItem("token", "GOOGLE_USER"); // optional: set flag/token
-      localStorage.setItem("role", data.user.role);
-      localStorage.setItem("email", user.email);
+      if (data.user) {
+        alert("✅ Google login success");
+        localStorage.setItem("token", "GOOGLE_USER");
+        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("email", user.email);
 
-      if (data.user.role === "admin") {
-        window.location.href = "/admin-dashboard";
+        if (data.user.role === "admin") {
+          window.location.href = "/admin-dashboard";
+        } else {
+          navigate("/home");
+        }
       } else {
-        navigate("/home");
+        setMessage(data.message || "Request sent");
       }
-    } catch (error) {
-      console.error("Google Register Error:", error);
+    } catch (err) {
+      console.error("Google Register Error:", err);
       setError("Google login failed. Please try again later.");
     }
   };
@@ -144,8 +137,6 @@ const Register = () => {
               className="signup-input"
               type="text"
               id="userName"
-              name="userName"
-              placeholder="Username"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
               disabled={loading}
@@ -156,8 +147,6 @@ const Register = () => {
               className="signup-input"
               type="email"
               id="email"
-              name="email"
-              placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
@@ -168,8 +157,6 @@ const Register = () => {
               className="signup-input"
               type="password"
               id="password"
-              name="password"
-              placeholder="••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
@@ -209,14 +196,14 @@ const Register = () => {
         <div className="login-right">
           <h4 className="oauth-title">Or</h4>
 
-          <button className="oauth-btn google" onClick={handleGoogleSignIn}>
+          <button className="oauth-btn google" onClick={handleGoogleSignIn} disabled={loading}>
             <span className="oauth-content">
               <FcGoogle className="oauth-icon" />
               Continue with Google
             </span>
           </button>
 
-          <button className="oauth-btn apple" disabled={loading}>
+          <button className="oauth-btn apple" disabled={true}>
             <span className="oauth-content">
               <FaApple className="oauth-icon" />
               Continue with Apple

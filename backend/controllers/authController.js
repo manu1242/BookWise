@@ -164,8 +164,94 @@ const googleRegister = async (req, res) => {
       await sendEmail(
         process.env.ADMIN_EMAIL,
         "Admin Access Request (via Google)",
-        `<p>User <strong>${name}</strong> (${email}) requested admin access via Google.</p>
-         <p><a href="${approvalLink}">Click here to approve</a></p>`
+        `
+  <html>
+    <head>
+      <style>
+        .email-container {
+          font-family: 'Segoe UI', sans-serif;
+          max-width: 600px;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #e0e0e0;
+          border-radius: 10px;
+          background-color: #ffffff;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .header {
+          text-align: center;
+        }
+        .header img {
+          width: 100px;
+          margin-bottom: 10px;
+        }
+        .title {
+          font-size: 20px;
+          color: #333333;
+          margin-bottom: 20px;
+        }
+        .message {
+          font-size: 16px;
+          color: #555555;
+          margin-bottom: 30px;
+        }
+        .approve-btn {
+          display: inline-block;
+          padding: 12px 24px;
+          background-color: #4caf50;
+          color: #ffffff;
+          text-decoration: none;
+          border-radius: 8px;
+          font-weight: bold;
+          transition: background-color 0.3s ease;
+        }
+        .approve-btn:hover {
+          background-color: #45a049;
+        }
+        .footer {
+          margin-top: 30px;
+          font-size: 12px;
+          color: #999999;
+          text-align: center;
+        }
+
+        /* Add animation */
+        @keyframes pulse {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.05); }
+          100% { transform: scale(1); }
+        }
+
+        .success-icon {
+          width: 60px;
+          animation: pulse 1.5s infinite;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="email-container">
+        <div class="header">
+          <img src="https://i.ibb.co/yYzLkV7/user-request.png" alt="Request Icon" />
+        </div>
+
+        <div class="title">🔔 Admin Access Request Received</div>
+
+        <div class="message">
+          <p><strong>${name}</strong> (${email}) has requested admin access via Google.</p>
+          <p>Please review and approve the request if valid.</p>
+        </div>
+
+        <div style="text-align: center;">
+          <a class="approve-btn" href="${approvalLink}">✅ Approve Admin Access</a>
+        </div>
+
+        <div class="footer">
+          You are receiving this email because you're the system administrator.
+        </div>
+      </div>
+    </body>
+  </html>
+  `
       );
 
       return res

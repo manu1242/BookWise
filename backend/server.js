@@ -12,11 +12,26 @@ connectDB();
 
 const app = express();
 
-app.use(cors({
-  origin: 
-    "https://book-wise-dev.vercel.app"
-  
-}));
+const allowedOrigins = [
+ 
+  "https://book-wise-dev.vercel.app",
+  "https://book-wise-navy.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+     
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    
+  })
+);
+
 
 app.use(express.json());
 

@@ -139,7 +139,9 @@ const googleRegister = async (req, res) => {
 
     if (user) {
       if (user.role === "pending-admin" && !user.isAdminApproved) {
-        return res.status(403).json({ message: "Admin access pending approval" });
+        return res
+          .status(403)
+          .json({ message: "Admin access pending approval" });
       }
 
       return res.status(200).json({ message: "User already exists", user });
@@ -149,12 +151,14 @@ const googleRegister = async (req, res) => {
       user = await User.create({
         name,
         email,
-        password: "", // not needed for Google
         role: "pending-admin",
         isAdminApproved: false,
+        authProvider: "google",
       });
 
-      const encodedData = Buffer.from(JSON.stringify({ email })).toString("base64");
+      const encodedData = Buffer.from(JSON.stringify({ email })).toString(
+        "base64"
+      );
       const approvalLink = `${process.env.SERVER_URL}api/auth/approve-admin?data=${encodedData}`;
 
       await sendEmail(
@@ -164,25 +168,26 @@ const googleRegister = async (req, res) => {
          <p><a href="${approvalLink}">Click here to approve</a></p>`
       );
 
-      return res.status(200).json({ message: "Admin access request sent. Await approval." });
+      return res
+        .status(200)
+        .json({ message: "Admin access request sent. Await approval." });
     }
 
+    // For normal user
     user = await User.create({
       name,
       email,
-      password: "",
       role: "user",
       isAdminApproved: true,
+      authProvider: "google",
     });
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     console.error("Google Register Error:", error);
-    console.error("Google Register Error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
-
 
 module.exports = {
   register,

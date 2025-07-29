@@ -14,8 +14,8 @@ const app = express();
 
 app.use(cors({
   origin: [
-    "https://book-wise-dev.vercel.app",
-    "http://localhost:5173"
+    "https://book-wise-dev.vercel.app"
+   
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true

@@ -128,8 +128,8 @@ const Register = () => {
         navigate("/home");
       }
     } catch (error) {
-      console.error("Google Register Error:", error); // <== This will show you the real problem
-      res.status(500).json({ message: "Server error", error: error.message });
+      console.error("Google Register Error:", error);
+      setError("Google login failed. Please try again later.");
     }
   };
 

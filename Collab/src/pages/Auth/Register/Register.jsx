@@ -101,7 +101,7 @@ const Register = () => {
           body: JSON.stringify({
             name: user.displayName,
             email: user.email,
-            role: "user", // or "admin" if checkbox selected
+            role: isAdmin ? "admin" : "user"
           }),
         }
       );

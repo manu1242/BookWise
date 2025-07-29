@@ -73,9 +73,14 @@ const Login = () => {
     const data = await response.json();
 
     if (!response.ok) {
-      setError(data.message || "Google login failed");
-      return;
-    }
+  if (data.message === "Admin access pending approval") {
+    setError("⛔ Admin access pending approval. Please wait.");
+  } else {
+    setError(data.message || "Google login failed");
+  }
+  return;
+}
+
 
     localStorage.setItem("token", "GOOGLE_USER"); // optional, if you don’t issue JWT
     localStorage.setItem("role", data.user.role);

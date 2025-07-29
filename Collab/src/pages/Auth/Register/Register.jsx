@@ -86,48 +86,52 @@ const Register = () => {
       setLoading(false);
     }
   };
-const handleGoogleSignIn = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: user.displayName,
-        email: user.email,
-        role: "user", // or "admin" if checkbox selected
-      }),
-    });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}api/auth/google-register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            role: "user", // or "admin" if checkbox selected
+          }),
+        }
+      );
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      setError(data.message || "Google sign-in failed");
-      return;
+      if (!response.ok) {
+        if (data.message === "Admin access pending approval") {
+          setError("⛔ Admin access pending approval. Please wait.");
+        } else {
+          setError(data.message || "Google sign-in failed");
+        }
+        return;
+      }
+
+      alert("✅ Google login success");
+      localStorage.setItem("token", "GOOGLE_USER"); // optional: set flag/token
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("email", user.email);
+
+      if (data.user.role === "admin") {
+        window.location.href = "/admin-dashboard";
+      } else {
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Google Register Error:", error); // <== This will show you the real problem
+      res.status(500).json({ message: "Server error", error: error.message });
     }
-
-    alert("✅ Google login success");
-    localStorage.setItem("token", "GOOGLE_USER"); // optional: set flag/token
-    localStorage.setItem("role", data.user.role);
-    localStorage.setItem("email", user.email);
-
-    if (data.user.role === "admin") {
-      window.location.href = "/admin-dashboard";
-    } else {
-      navigate("/home");
-    }
-  } catch (error) {
-  console.error("Google Register Error:", error); // <== This will show you the real problem
-  res.status(500).json({ message: "Server error", error: error.message });
-}
-
-};
-
-
+  };
 
   return (
     <div className="signup-container">
@@ -205,8 +209,8 @@ const handleGoogleSignIn = async () => {
         <div className="login-right">
           <h4 className="oauth-title">Or</h4>
 
-          <button className="oauth-btn google"  onClick={handleGoogleSignIn}>
-            <span className="oauth-content" >
+          <button className="oauth-btn google" onClick={handleGoogleSignIn}>
+            <span className="oauth-content">
               <FcGoogle className="oauth-icon" />
               Continue with Google
             </span>

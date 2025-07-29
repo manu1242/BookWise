@@ -199,7 +199,7 @@ const handleGoogleSignIn = async () => {
         <div className="login-right">
           <h4 className="oauth-title">Or</h4>
 
-          <button className="oauth-btn google"  onClick={handleGoogleSignIn}disabled={loading}>
+          <button className="oauth-btn google"  onClick={handleGoogleSignIn}>
             <span className="oauth-content" >
               <FcGoogle className="oauth-icon" />
               Continue with Google

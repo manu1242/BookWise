@@ -126,7 +126,7 @@ const Login = () => {
             <button
               className="oauth-btn google"
               onClick={handleGoogleLogin}
-              disabled={loading}
+              
             >
               <span className="oauth-content">
                 <FcGoogle className="oauth-icon" />

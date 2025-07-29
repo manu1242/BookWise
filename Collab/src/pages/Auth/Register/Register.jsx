@@ -140,54 +140,100 @@ const Register = () => {
   //     setGoogleLoading(false);
   //   }
   // };
+  // const handleGoogleSignIn = async () => {
+  //   if (googleLoading) return; // prevent multiple clicks
+
+  //   setGoogleLoading(true);
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_API_URL}api/auth/google-register`,
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           name: user.displayName,
+  //           email: user.email,
+  //           role: isAdmin ? "admin" : "user",
+  //         }),
+  //       }
+  //     );
+
+  //     const data = await response.json();
+
+  //     if (!response.ok) {
+  //       setError(data.message || "Google sign-in failed");
+  //     } else {
+  //       toast.success("✅ Google login success");
+  //       localStorage.setItem("token", "GOOGLE_USER");
+  //       localStorage.setItem("role", data.user.role);
+  //       localStorage.setItem("email", user.email);
+
+  //       if (data.user.role === "admin") {
+  //         window.location.href = "/admin-dashboard";
+  //       } else {
+  //         navigate("/home");
+  //       }
+  //     }
+  //   } catch (err) {
+  //     if (err.code === "auth/popup-closed-by-user") {
+  //       setError("Popup closed before completing sign-in.");
+  //     } else {
+  //       console.error("Google Register Error:", err);
+  //       setError("Google login failed. Please try again later.");
+  //     }
+  //   } finally {
+  //     setGoogleLoading(false);
+  //   }
+  // };
   const handleGoogleSignIn = async () => {
-    if (googleLoading) return; // prevent multiple clicks
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-    setGoogleLoading(true);
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+    const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: user.displayName,
+        email: user.email,
+        role: isAdmin ? "admin" : "user",
+      }),
+    });
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}api/auth/google-register`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: user.displayName,
-            email: user.email,
-            role: isAdmin ? "admin" : "user",
-          }),
-        }
-      );
+    const data = await response.json();
 
-      const data = await response.json();
-
-      if (!response.ok) {
+    if (!response.ok) {
+      if (data.message === "Admin access pending approval") {
+        setError("⛔ Admin access pending approval. Please wait.");
+      } else {
         setError(data.message || "Google sign-in failed");
-      } else {
-        toast.success("✅ Google login success");
-        localStorage.setItem("token", "GOOGLE_USER");
-        localStorage.setItem("role", data.user.role);
-        localStorage.setItem("email", user.email);
-
-        if (data.user.role === "admin") {
-          window.location.href = "/admin-dashboard";
-        } else {
-          navigate("/home");
-        }
       }
-    } catch (err) {
-      if (err.code === "auth/popup-closed-by-user") {
-        setError("Popup closed before completing sign-in.");
-      } else {
-        console.error("Google Register Error:", err);
-        setError("Google login failed. Please try again later.");
-      }
-    } finally {
-      setGoogleLoading(false);
+      return;
     }
-  };
+
+    if (data && data.user) {
+      toast.success("✅ Google login success");
+      localStorage.setItem("token", "GOOGLE_USER");
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("email", user.email);
+
+      if (data.user.role === "admin") {
+        window.location.href = "/admin-dashboard";
+      } else {
+        navigate("/home");
+      }
+    } else {
+      setMessage(data.message || "Request sent. Await approval.");
+    }
+  } catch (err) {
+    console.error("Google Register Error:", err);
+    setError("Google login failed. Please try again later.");
+  }
+};
+
   return (
     <div className="signup-container">
       <div className="signup-card">

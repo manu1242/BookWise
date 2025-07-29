@@ -38,7 +38,7 @@ const AdminProfile = () => {
     fetchProfile();
   }, []);
 
-  // 🔐 Logout handler
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("email");

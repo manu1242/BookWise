@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Plus, X, Trash2 } from "lucide-react";
 import "./Categories.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Categories = ({ listings }) => {
   const [categories, setCategories] = useState([]);
@@ -41,7 +42,7 @@ const Categories = ({ listings }) => {
           setIsModalOpen(false);
         }
       } catch (err) {
-        alert(err.response?.data?.message || "Failed to add category");
+        toast.success(err.response?.data?.message || "Failed to add category");
       }
     }
   };

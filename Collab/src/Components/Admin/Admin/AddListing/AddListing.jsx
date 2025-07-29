@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
 import "./AddListing.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const AddListing = ({ onAddListing, onAddCategory }) => {
   const [newListing, setNewListing] = useState({
@@ -78,7 +79,8 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
           },
         }
       );
-      alert("Booking added!");
+      
+      toast.success("Booking Added User")
       setNewListing({
         providerName: "",
         phone: "",
@@ -99,7 +101,7 @@ const AddListing = ({ onAddListing, onAddCategory }) => {
         err.response?.data,
         err.response?.status
       );
-      alert("Error submitting booking");
+      toast.success("Error submitting booking");
     }
   };
   const [preview, setPreview] = useState(null);

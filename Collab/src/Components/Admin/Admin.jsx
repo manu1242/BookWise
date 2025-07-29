@@ -31,7 +31,7 @@ const Admin = () => {
       const res = await axios.get(
         `${import.meta.env.VITE_API_URL}api/bookings/dashboard`
       );
-      console.log("Response from dashboard:", res.data);
+      
 
       setListings(res.data.AllBookings || []);
       setUsers(res.data.AllUsers || []);

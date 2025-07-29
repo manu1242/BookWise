@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
 import "./Dealer.css";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Dealer = ({ onAddListing, onAddCategory }) => {
   const [newListing, setNewListing] = useState({
@@ -78,7 +79,8 @@ const Dealer = ({ onAddListing, onAddCategory }) => {
           },
         }
       );
-      alert("Booking added!");
+     
+      toast.success("Booking Added....")
       setNewListing({
         providerName: "",
         phone: "",
@@ -92,7 +94,8 @@ const Dealer = ({ onAddListing, onAddCategory }) => {
       });
     } catch (err) {
       console.error("Error submitting booking:", err);
-      alert("Error submitting booking");
+    
+      toast.success("Error submitting booking")
     }
   };
   const [preview, setPreview] = useState(null);

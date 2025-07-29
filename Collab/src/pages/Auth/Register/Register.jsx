@@ -14,13 +14,15 @@ const Register = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailRegex = /^[^\s@]+[0-9][^\s@]*@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/;
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,16}$/;
     const usernameRegex = /^[A-Za-z0-9\s]+$/;
 
     if (!userName || !email || !password) {
@@ -29,7 +31,9 @@ const Register = () => {
     }
 
     if (!usernameRegex.test(userName)) {
-      setError("Username can only include letters, numbers, and spaces (no symbols)");
+      setError(
+        "Username can only include letters, numbers, and spaces (no symbols)"
+      );
       return;
     }
 
@@ -39,7 +43,9 @@ const Register = () => {
     }
 
     if (!passwordRegex.test(password)) {
-      setError("Password must be 6-16 characters and include a letter, number, and special character");
+      setError(
+        "Password must be 6-16 characters and include a letter, number, and special character"
+      );
       return;
     }
 
@@ -48,16 +54,19 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: userName,
-          email,
-          password,
-          role: isAdmin ? "admin" : "user",
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}api/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: userName,
+            email,
+            password,
+            role: isAdmin ? "admin" : "user",
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -65,7 +74,6 @@ const Register = () => {
         if (isAdmin) {
           setMessage("✅ Admin request sent. Please wait for email approval.");
         } else {
-          
           toast.success("✅ Registration successful!");
           navigate("/login");
         }
@@ -80,28 +88,79 @@ const Register = () => {
     }
   };
 
- 
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     const result = await signInWithPopup(auth, provider);
+  //     const user = result.user;
+
+  //     const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         name: user.displayName,
+  //         email: user.email,
+  //         role: isAdmin ? "admin" : "user",
+  //       }),
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (!response.ok) {
+  //       if (data.message === "Admin access pending approval") {
+  //         setError("⛔ Admin access pending approval. Please wait.");
+
+  //       } else {
+  //         setError(data.message || "Google sign-in failed");
+  //       }
+  //       return;
+  //     }
+
+  //     if (data.user) {
+
+  //       toast.success("✅ Google login success")
+  //       localStorage.setItem("token", "GOOGLE_USER");
+  //       localStorage.setItem("role", data.user.role);
+  //       localStorage.setItem("email", user.email);
+
+  //       if (data.user.role === "admin") {
+  //         window.location.href = "/admin-dashboard";
+  //       } else {
+  //         navigate("/home");
+  //       }
+  //     } else {
+  //       setMessage(data.message || "Request sent");
+  //     }
+  //   } catch (err) {
+  //     console.error("Google Register Error:", err);
+  //     setError("Google login failed. Please try again later.");
+  //   }
+  // };
   const handleGoogleSignIn = async () => {
+    if (googleLoading) return; 
+    setGoogleLoading(true); 
+
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: user.displayName,
-          email: user.email,
-          role: isAdmin ? "admin" : "user", 
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}api/auth/google-register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            role: isAdmin ? "admin" : "user",
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
         if (data.message === "Admin access pending approval") {
           setError("⛔ Admin access pending approval. Please wait.");
-          
         } else {
           setError(data.message || "Google sign-in failed");
         }
@@ -109,8 +168,7 @@ const Register = () => {
       }
 
       if (data.user) {
-        
-        toast.success("✅ Google login success")
+        toast.success("✅ Google login success");
         localStorage.setItem("token", "GOOGLE_USER");
         localStorage.setItem("role", data.user.role);
         localStorage.setItem("email", user.email);
@@ -126,9 +184,10 @@ const Register = () => {
     } catch (err) {
       console.error("Google Register Error:", err);
       setError("Google login failed. Please try again later.");
+    } finally {
+      setGoogleLoading(false); 
     }
   };
-
   return (
     <div className="signup-container">
       <div className="signup-card">
@@ -199,7 +258,11 @@ const Register = () => {
         <div className="login-right">
           <h4 className="oauth-title">Or</h4>
 
-          <button className="oauth-btn google" onClick={handleGoogleSignIn} disabled={loading}>
+          <button
+            className="oauth-btn google"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
             <span className="oauth-content">
               <FcGoogle className="oauth-icon" />
               Continue with Google

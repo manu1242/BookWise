@@ -121,9 +121,10 @@ const handleGoogleSignIn = async () => {
       navigate("/home");
     }
   } catch (error) {
-    console.error("Google Sign-In Error:", error);
-    setError("Google Sign-In failed");
-  }
+  console.error("Google Register Error:", error); // <== This will show you the real problem
+  res.status(500).json({ message: "Server error", error: error.message });
+}
+
 };
 
 

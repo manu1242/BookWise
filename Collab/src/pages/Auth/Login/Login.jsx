@@ -51,42 +51,47 @@ const Login = () => {
       setError("Something went wrong");
     }
   };
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+ const handleGoogleLogin = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: user.email, password: "" }), // or a separate endpoint for google login
-        }
-      );
+    // Optional: Let users choose role (admin/user)
+    const role = "user"; // or "admin" based on checkbox/UI
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Login failed");
-      } else {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.user.role);
-        localStorage.setItem("email", user.email);
-
-        if (data.user.role === "admin") {
-          window.location.href = "/admin-dashboard";
-        } else {
-          navigate("/home");
-        }
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL}api/auth/google-register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: user.displayName, email: user.email, role }),
       }
-    } catch (error) {
-      console.error("Google Login Error:", error);
-      setError("Google Login failed");
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.message || "Google login failed");
+      return;
     }
-  };
+
+    localStorage.setItem("token", "GOOGLE_USER"); // optional, if you don’t issue JWT
+    localStorage.setItem("role", data.user.role);
+    localStorage.setItem("email", user.email);
+
+    if (data.user.role === "admin") {
+      window.location.href = "/admin-dashboard";
+    } else {
+      navigate("/home");
+    }
+  } catch (error) {
+    console.error("Google Login Error:", error);
+    setError("Google Login failed");
+  }
+};
+
 
   return (
     <div className="login-root">

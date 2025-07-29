@@ -86,7 +86,6 @@ const Register = () => {
       setLoading(false);
     }
   };
-
 const handleGoogleSignIn = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
@@ -100,27 +99,33 @@ const handleGoogleSignIn = async () => {
       body: JSON.stringify({
         name: user.displayName,
         email: user.email,
-        role: isAdmin ? "admin" : "user",
+        role: "user", // or "admin" if checkbox selected
       }),
     });
 
     const data = await response.json();
 
-    if (response.ok) {
-      if (isAdmin) {
-        setMessage("✅ Admin request sent. Please wait for email approval.");
-      } else {
-        alert(`✅ Welcome ${user.displayName}`);
-        navigate("/home");
-      }
+    if (!response.ok) {
+      setError(data.message || "Google sign-in failed");
+      return;
+    }
+
+    alert("✅ Google login success");
+    localStorage.setItem("token", "GOOGLE_USER"); // optional: set flag/token
+    localStorage.setItem("role", data.user.role);
+    localStorage.setItem("email", user.email);
+
+    if (data.user.role === "admin") {
+      window.location.href = "/admin-dashboard";
     } else {
-      setError(data.message || "Google Registration failed");
+      navigate("/home");
     }
   } catch (error) {
     console.error("Google Sign-In Error:", error);
     setError("Google Sign-In failed");
   }
 };
+
 
 
   return (

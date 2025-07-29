@@ -15,6 +15,7 @@ const Register = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -189,50 +190,54 @@ const Register = () => {
   //   }
   // };
   const handleGoogleSignIn = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    if (googleLoading) return; // prevent double clicks
+    setGoogleLoading(true);
 
-    const response = await fetch(`${import.meta.env.VITE_API_URL}api/auth/google-register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: user.displayName,
-        email: user.email,
-        role: isAdmin ? "admin" : "user",
-      }),
-    });
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
-    const data = await response.json();
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}api/auth/google-register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: user.displayName,
+            email: user.email,
+            role: isAdmin ? "admin" : "user",
+          }),
+        }
+      );
 
-    if (!response.ok) {
-      if (data.message === "Admin access pending approval") {
-        setError("⛔ Admin access pending approval. Please wait.");
-      } else {
+      const data = await response.json();
+
+      if (!response.ok) {
         setError(data.message || "Google sign-in failed");
+        return;
       }
-      return;
-    }
 
-    if (data && data.user) {
-      toast.success("✅ Google login success");
-      localStorage.setItem("token", "GOOGLE_USER");
-      localStorage.setItem("role", data.user.role);
-      localStorage.setItem("email", user.email);
+      if (data && data.user) {
+        toast.success("✅ Google login success");
+        localStorage.setItem("token", "GOOGLE_USER");
+        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("email", user.email);
 
-      if (data.user.role === "admin") {
-        window.location.href = "/admin-dashboard";
+        if (data.user.role === "admin") {
+          window.location.href = "/admin-dashboard";
+        } else {
+          navigate("/home");
+        }
       } else {
-        navigate("/home");
+        setMessage(data.message || "Request sent.");
       }
-    } else {
-      setMessage(data.message || "Request sent. Await approval.");
+    } catch (err) {
+      console.error("Google Register Error:", err);
+      setError("Google login failed. Please try again.");
+    } finally {
+      setGoogleLoading(false);
     }
-  } catch (err) {
-    console.error("Google Register Error:", err);
-    setError("Google login failed. Please try again later.");
-  }
-};
+  };
 
   return (
     <div className="signup-container">
@@ -310,7 +315,7 @@ const Register = () => {
             disabled={googleLoading}
           >
             {googleLoading ? (
-              "Signing in..."
+              "Loading..."
             ) : (
               <span className="oauth-content">
                 <FcGoogle className="oauth-icon" />

@@ -28,7 +28,7 @@ const Footer = () => {
     { name: 'Facebook', icon: Facebook, href: '#' },
     { name: 'Twitter', icon: Twitter, href: '#' },
     { name: 'Instagram', icon: Instagram, href: '#' },
-    { name: 'LinkedIn', icon: Linkedin, href: '#' }
+    { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/in/manohar-yalla/' }
   ];
 
  

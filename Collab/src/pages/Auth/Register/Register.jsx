@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaApple } from "react-icons/fa";
+import { auth, provider, signInWithPopup } from "../FireBase/Firebase";
 import "./Register.css";
 
 const Register = () => {
@@ -13,55 +14,6 @@ const Register = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!email || !password || !userName) {
-  //     setError("All fields are required");
-  //     return;
-  //   }
-
-  //   setError("");
-  //   setMessage("");
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await fetch(
-  //       `${import.meta.env.VITE_API_URL}api/auth/register`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           name: userName,
-  //           email,
-  //           password,
-  //           role: isAdmin ? "admin" : "user",
-  //         }),
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       if (isAdmin) {
-  //         setMessage("✅ Admin request sent. Please wait for email approval.");
-  //       } else {
-  //         alert("✅ Registration successful!");
-  //         navigate("/login");
-  //       }
-  //     } else {
-  //       setError(data.message || "Registration failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //     setError("An error occurred during registration.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -134,6 +86,22 @@ const Register = () => {
       setLoading(false);
     }
   };
+
+const handleGoogleSignIn = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    
+    console.log("Google User:", user);
+
+    // Optional: send to backend if needed
+    alert(`Welcome ${user.displayName}`);
+    navigate("/");
+  } catch (error) {
+    console.error("Google Sign-In Error:", error);
+    setError("Google Sign-In failed");
+  }
+};
 
   return (
     <div className="signup-container">
@@ -211,8 +179,8 @@ const Register = () => {
         <div className="login-right">
           <h4 className="oauth-title">Or</h4>
 
-          <button className="oauth-btn google" disabled={loading}>
-            <span className="oauth-content">
+          <button className="oauth-btn google"  onClick={handleGoogleSignIn}disabled={loading}>
+            <span className="oauth-content" >
               <FcGoogle className="oauth-icon" />
               Continue with Google
             </span>

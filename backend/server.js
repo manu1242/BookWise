@@ -13,24 +13,22 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
- 
-  "https://book-wise-dev.vercel.app",
-  "https://book-wise-navy.vercel.app"
+  "https://book-wise-dev.vercel.app",   // frontend prod
+  "http://localhost:5173"               // frontend local (optional for local testing)
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-     
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error("CORS not allowed from this origin"));
+    }
+  },
+  
+}));
 
 
 app.use(express.json());

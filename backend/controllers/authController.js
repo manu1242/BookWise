@@ -178,6 +178,7 @@ const googleRegister = async (req, res) => {
     res.status(201).json({ message: "User registered successfully", user });
   } catch (error) {
     console.error("Google Register Error:", error);
+    console.error("Google Register Error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

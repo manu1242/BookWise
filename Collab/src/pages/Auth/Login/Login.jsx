@@ -125,11 +125,7 @@ const Login = () => {
             <button className="login-btn" type="submit">
               Login
             </button>
-            <button
-              className="oauth-btn google"
-              onClick={handleGoogleLogin}
-              
-            >
+            <button className="oauth-btn google" onClick={handleGoogleLogin}>
               <span className="oauth-content">
                 <FcGoogle className="oauth-icon" />
                 Continue with Google

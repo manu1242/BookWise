@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 import ReactiveButton from "reactive-button";
-import "reactive-button/dist/reactive-button.css";
 
 import {
   MapPin,
@@ -191,7 +190,7 @@ const Footer = () => {
                 />
                 <ReactiveButton
                   type="submit"
-                  className="newsletter-btn custom-button-size"
+                  className="custom-button"
                   buttonState={state}
                   idleText="Submit"
                   loadingText="Loading..."

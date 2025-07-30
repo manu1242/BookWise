@@ -22,15 +22,6 @@ const Footer = () => {
   const [subscribed, setSubscribed] = useState(false);
   const [state, setState] = useState("idle");
 
-  const onClickHandler = () => {
-    setState("loading");
-
-    // send an HTTP request
-    setTimeout(() => {
-      setState("success");
-    }, 2000);
-  };
-
   const navigationLinks = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/" },
@@ -50,12 +41,13 @@ const Footer = () => {
     },
   ];
 
-  // ✅ Newsletter submit function
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
+    setState("loading");
 
     if (!/^\S+@\S+\.\S+$/.test(newsletterEmail)) {
       alert("Please enter a valid email.");
+      setState("idle");
       return;
     }
 
@@ -69,13 +61,16 @@ const Footer = () => {
       .then(() => {
         setSubscribed(true);
         setNewsletterEmail("");
+        setState("success");
 
         setTimeout(() => {
           setSubscribed(false);
-        }, 4000); // show success message for 4 seconds
+          setState("idle");
+        }, 4000);
       })
       .catch(() => {
         alert("Subscription failed. Try again.");
+        setState("idle");
       });
   };
 
@@ -197,9 +192,8 @@ const Footer = () => {
                   className="newsletter-btn"
                   buttonState={state}
                   idleText="Submit"
-                  loadingText="Loading"
-                  successText="Done"
-                  onClick={onClickHandler}
+                  loadingText="Loading..."
+                  successText="Subscribed!"
                 />
               </form>
             )}

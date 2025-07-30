@@ -1,37 +1,39 @@
-import React from 'react';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Facebook, 
-  Twitter, 
-  Instagram, 
+import React from "react";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Facebook,
+  Twitter,
+  Instagram,
   Linkedin,
   Calendar,
   ArrowRight,
-  Heart
-} from 'lucide-react';
-import './Footer.css';
+  Heart,
+} from "lucide-react";
+import "./Footer.css";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const navigationLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/' },
-    { name: 'Bookings', href: '/booking ' },
-    { name: 'About Us', href: '#' },
-    { name: 'Contact', href: '/contact' }
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/" },
+    { name: "Bookings", href: "/booking " },
+    { name: "About Us", href: "#" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const socialLinks = [
-    { name: 'Facebook', icon: Facebook, href: '#' },
-    { name: 'Twitter', icon: Twitter, href: '#' },
-    { name: 'Instagram', icon: Instagram, href: '#' },
-    { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/in/manohar-yalla/' }
+    { name: "Facebook", icon: Facebook, href: "#" },
+    { name: "Twitter", icon: Twitter, href: "#" },
+    { name: "Instagram", icon: Instagram, href: "#" },
+    {
+      name: "LinkedIn",
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/manohar-yalla/",
+    },
   ];
-
- 
 
   return (
     <footer className="footer">
@@ -47,9 +49,9 @@ const Footer = () => {
               <h2 className="brand-name">BookWise</h2>
             </div>
             <p className="brand-description">
-              Transform the way you book services with our intelligent platform. 
-              Connect with verified professionals, schedule seamlessly, and experience 
-              service excellence like never before.
+              Transform the way you book services with our intelligent platform.
+              Connect with verified professionals, schedule seamlessly, and
+              experience service excellence like never before.
             </p>
             <div className="social-links">
               {socialLinks.map((social) => {
@@ -83,9 +85,6 @@ const Footer = () => {
             </ul>
           </div>
 
-         
-          
-
           {/* Contact Info */}
           <div className="footer-section">
             <h3 className="section-title">Get in Touch</h3>
@@ -99,7 +98,7 @@ const Footer = () => {
                   <span>HITech City, st ,888801</span>
                 </div>
               </div>
-              
+
               <div className="contact-item">
                 <div className="contact-icon">
                   <Phone size={18} />
@@ -108,7 +107,7 @@ const Footer = () => {
                   +91 888-555-333-22
                 </a>
               </div>
-              
+
               <div className="contact-item">
                 <div className="contact-icon">
                   <Mail size={18} />
@@ -126,19 +125,35 @@ const Footer = () => {
           <div className="newsletter-content">
             <div className="newsletter-text">
               <h3>Stay Updated</h3>
-              <p>Get the latest updates and exclusive offers delivered to your inbox.</p>
+              <p>
+                Get the latest updates and exclusive offers delivered to your
+                inbox.
+              </p>
             </div>
-            <div className="newsletter-form">
-              <input 
-                type="email" 
-                placeholder="Enter your email address"
-                className="newsletter-input"
-              />
-              <button className="newsletter-btn">
-                Subscribe
-                <ArrowRight size={16} />
-              </button>
-            </div>
+
+            {subscribed ? (
+              <div className="subscribed-animation">
+                🎉 You're Subscribed! 🎉
+              </div>
+            ) : (
+              <form
+                onSubmit={handleNewsletterSubmit}
+                className="newsletter-form"
+              >
+                <input
+                  type="email"
+                  placeholder="Enter your email address"
+                  className="newsletter-input"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  required
+                />
+                <button type="submit" className="newsletter-btn">
+                  Subscribe
+                  <ArrowRight size={16} />
+                </button>
+              </form>
+            )}
           </div>
         </div>
 
@@ -151,9 +166,15 @@ const Footer = () => {
               <span> for better service experiences.</span>
             </div>
             <div className="legal-links">
-              <a href="#" className="legal-link">Privacy Policy</a>
-              <a href="#" className="legal-link">Terms of Service</a>
-              <a href="#" className="legal-link">Cookie Policy</a>
+              <a href="#" className="legal-link">
+                Privacy Policy
+              </a>
+              <a href="#" className="legal-link">
+                Terms of Service
+              </a>
+              <a href="#" className="legal-link">
+                Cookie Policy
+              </a>
             </div>
           </div>
         </div>

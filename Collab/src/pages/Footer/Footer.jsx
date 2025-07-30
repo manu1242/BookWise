@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react"; // ✅ Import useState
+import emailjs from "@emailjs/browser";
 import {
   MapPin,
   Phone,
@@ -15,13 +16,15 @@ import "./Footer.css";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  // ✅ Declare state hooks
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
   const navigationLinks = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/" },
-    { name: "Bookings", href: "/booking " },
+    { name: "Bookings", href: "/booking" },
     { name: "About Us", href: "#" },
     { name: "Contact", href: "/contact" },
   ];
@@ -36,6 +39,35 @@ const Footer = () => {
       href: "https://www.linkedin.com/in/manohar-yalla/",
     },
   ];
+
+  // ✅ Newsletter submit function
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+
+    if (!/^\S+@\S+\.\S+$/.test(newsletterEmail)) {
+      alert("Please enter a valid email.");
+      return;
+    }
+
+    emailjs
+      .send(
+        "service_5kh4s9h",
+        "template_kclp4g4",
+        { subscriber_email: newsletterEmail },
+        "E-eZxBmVLMFLjwdvA"
+      )
+      .then(() => {
+        setSubscribed(true);
+        setNewsletterEmail("");
+
+        setTimeout(() => {
+          setSubscribed(false);
+        }, 4000); // show success message for 4 seconds
+      })
+      .catch(() => {
+        alert("Subscription failed. Try again.");
+      });
+  };
 
   return (
     <footer className="footer">
@@ -96,7 +128,7 @@ const Footer = () => {
                   <MapPin size={18} />
                 </div>
                 <div className="contact-details">
-                  <span>Hyderabad </span>
+                  <span>Hyderabad</span>
                   <span>HITech City, st ,888801</span>
                 </div>
               </div>

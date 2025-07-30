@@ -15,6 +15,8 @@ import "./Footer.css";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   const navigationLinks = [
     { name: "Home", href: "/" },

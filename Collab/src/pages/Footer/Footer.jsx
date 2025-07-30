@@ -191,7 +191,7 @@ const Footer = () => {
                 />
                 <ReactiveButton
                   type="submit"
-                  className="newsletter-btn"
+                  className="newsletter-btn custom-button-size"
                   buttonState={state}
                   idleText="Submit"
                   loadingText="Loading..."

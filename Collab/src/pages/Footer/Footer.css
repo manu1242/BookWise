@@ -34,7 +34,11 @@
     transform: scale(1);
     opacity: 1;
   }
+}.custom-button-size {
+  width: 139%;
+  height: 150%;
 }
+
 
 
 .footer-container {

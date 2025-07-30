@@ -1,5 +1,6 @@
-import React, { useState } from "react"; // ✅ Import useState
+import React, { useState } from "react"; 
 import emailjs from "@emailjs/browser";
+import ReactiveButton from 'reactive-button';
 import {
   MapPin,
   Phone,
@@ -17,9 +18,18 @@ import "./Footer.css";
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  // ✅ Declare state hooks
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [state, setState] = useState('idle');
+
+  const onClickHandler = () => {
+    setState('loading');
+
+    // send an HTTP request
+    setTimeout(() => {
+      setState('success');
+    }, 2000);
+  };
 
   const navigationLinks = [
     { name: "Home", href: "/" },
@@ -182,10 +192,10 @@ const Footer = () => {
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   required
                 />
-                <button type="submit" className="newsletter-btn">
+                <ReactiveButton type="submit" className="newsletter-btn"
                   Subscribe
-                  <ArrowRight size={16} />
-                </button>
+                  
+                />
               </form>
             )}
           </div>

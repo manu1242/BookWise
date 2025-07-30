@@ -37,8 +37,8 @@
 }/* Footer.css */
 .custom-button {
   width: 139%;
-  height: 180%;
-  background-color: #0443ff;
+  height: 50px;
+  background-color: #6d8ded;
   color: white;
   font-size: 1rem;
   border: none;
@@ -49,17 +49,17 @@
 }
 
 .custom-button:hover {
-  background-color: #e60000;
+  background-color: #0059ff;
 }
 
 .custom-button.loading {
-  background-color: #ccc;
-  color: #333;
+  background-color: #ffffff;
+  color: #000000;
   cursor: wait;
 }
 
 .custom-button.success {
-  background-color: #28a745;
+  background-color: #07591a;
   color: white;
 }
 

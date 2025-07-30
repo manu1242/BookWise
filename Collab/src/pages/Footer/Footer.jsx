@@ -1,6 +1,6 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
-import ReactiveButton from 'reactive-button';
+import ReactiveButton from "reactive-button";
 import {
   MapPin,
   Phone,
@@ -20,14 +20,14 @@ const Footer = () => {
 
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-  const [state, setState] = useState('idle');
+  const [state, setState] = useState("idle");
 
   const onClickHandler = () => {
-    setState('loading');
+    setState("loading");
 
     // send an HTTP request
     setTimeout(() => {
-      setState('success');
+      setState("success");
     }, 2000);
   };
 
@@ -192,9 +192,14 @@ const Footer = () => {
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   required
                 />
-                <ReactiveButton type="submit" className="newsletter-btn"
-                  Subscribe
-                  
+                <ReactiveButton
+                  type="submit"
+                  className="newsletter-btn"
+                  buttonState={state}
+                  idleText="Submit"
+                  loadingText="Loading"
+                  successText="Done"
+                  onClick={onClickHandler}
                 />
               </form>
             )}

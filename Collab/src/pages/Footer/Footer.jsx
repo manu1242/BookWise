@@ -188,14 +188,17 @@ const Footer = () => {
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   required
                 />
-                <ReactiveButton
+                <button
                   type="submit"
-                  className="custom-button"
-                  buttonState={state}
-                  idleText="Submit"
-                  loadingText="Loading..."
-                  successText="Subscribed!"
-                />
+                  className={`custom-button ${state}`}
+                  disabled={state === "loading" || state === "success"}
+                >
+                  {state === "loading"
+                    ? "Loading..."
+                    : state === "success"
+                      ? "Subscribed!"
+                      : "Submit"}
+                </button>
               </form>
             )}
           </div>

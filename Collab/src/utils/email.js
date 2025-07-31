@@ -21,13 +21,13 @@ export const sendBookingConfirmationEmail = async (details) => {
       import.meta.env.VITE_EMAILJS_SERVICE_ID,
       import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       {
-        name,               // ✅ for {{name}}
-        to_email: customerEmail, // ✅ for {{to_email}}
-        mobile,             // ✅ for {{mobile}}
-        date,               // ✅ for {{date}}
-        time,               // ✅ for {{time}}
-        location,           // ✅ for {{location}}
-        reference,          // ✅ for {{reference}}
+        name,             
+        to_email: customerEmail, 
+        mobile,             
+        date,               
+        time,              
+        location,           
+        reference,          
       },
       import.meta.env.VITE_EMAILJS_PUBLIC_KEY
     );

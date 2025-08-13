@@ -209,8 +209,6 @@ const Footer = () => {
           <div className="footer-bottom-content">
             <div className="copyright">
               <span>© {currentYear} BookWise. Made with </span>
-              <Heart size={14} className="heart-icon" />
-              <span> for better service experiences.</span>
             </div>
             <div className="legal-links">
               <a href="#" className="legal-link">
